@@ -1,2 +1,9 @@
+# 日志文件
 *.log
+
+# VS Code  
 .DS_Store
+
+# 数据存储
+storage/*
+!storage/redis/redis.conf
