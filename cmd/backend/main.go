@@ -1,13 +1,21 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	_ "github.com/golang-migrate/migrate/v4"
+	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/pkg/env"
+	"github.com/lightsaid/hotel-bookings/platform"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	fmt.Println("后端")
+	_, err := env.LoadingEnv("config.toml", &config.Cfg, "./configs")
+	if err != nil {
+		log.Fatal("加载 config.toml ", err)
+	}
+
+	platform.NewApp(platform.Backend).Start(&config.Cfg)
 }

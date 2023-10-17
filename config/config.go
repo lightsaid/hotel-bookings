@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -14,10 +15,19 @@ type Config struct {
 	Redis  Redis
 }
 
+// JSON 以 JSON 格式打印配置
+func (c *Config) JSON() {
+	dataByte, err := json.Marshal(c)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(dataByte))
+}
+
 type Server struct {
-	AppMode   string
-	BackPort  int
-	FrontPort int
+	AppMode string
+	Port    int
 }
 
 type MySQL struct {
