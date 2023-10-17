@@ -3,7 +3,7 @@
 //   sqlc v1.22.0
 // source: hotels.sql
 
-package sqlc
+package db
 
 import (
 	"context"
@@ -79,16 +79,17 @@ func (q *Queries) GetHotels(ctx context.Context, arg GetHotelsParams) ([]*Hotel,
 }
 
 const GetHotelsByTitle = `-- name: GetHotelsByTitle :many
-SELECT id, title, code, address, created_at, updated_at, is_deleted FROM hotels WHERE title LIKE "%?%" AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?
+SELECT id, title, code, address, created_at, updated_at, is_deleted FROM hotels WHERE title LIKE ? AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?
 `
 
 type GetHotelsByTitleParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	Title  string `json:"title"`
+	Limit  int32  `json:"limit"`
+	Offset int32  `json:"offset"`
 }
 
 func (q *Queries) GetHotelsByTitle(ctx context.Context, arg GetHotelsByTitleParams) ([]*Hotel, error) {
-	rows, err := q.db.QueryContext(ctx, GetHotelsByTitle, arg.Limit, arg.Offset)
+	rows, err := q.db.QueryContext(ctx, GetHotelsByTitle, arg.Title, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

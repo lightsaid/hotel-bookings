@@ -17,7 +17,7 @@ SELECT * FROM hotels WHERE id = ? AND is_deleted = 0;
 SELECT * FROM hotels WHERE is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
 
 -- name: GetHotelsByTitle :many
-SELECT * FROM hotels WHERE title LIKE "%?%" AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
+SELECT * FROM hotels WHERE title LIKE ? AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
 
 -- name: DeleteHotelByID :exec
 UPDATE hotels SET is_deleted = 1, updated_at = NOW() WHERE id = ? and is_deleted = 0;

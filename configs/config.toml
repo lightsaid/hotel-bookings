@@ -1,0 +1,20 @@
+# 系统参数配置，本地运行配置
+[Server]
+AppMode = "debug" # debug 开发环境, release 生产环境, test 测试；这里和 Gin 保持一致。
+BackPort = 9527
+FrontPort = 9000
+
+[MySQL]
+Host = ""
+Port = 3366
+User = "root"
+Password = "abc123"
+DbName = "db_hotel_bookings"
+MaxOpenConns = 25
+MaxIdleConns = 25
+MaxIdleTime = "5m"
+
+[Redis]
+Addr = "localhost:6379" # addr
+DB = 7 # 数据库 0-16
+Password = "" # 密码，如果有的
