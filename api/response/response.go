@@ -54,6 +54,10 @@ func JSON[T Responder](c *gin.Context, err *errs.ApiError, data *T) {
 	c.JSON(err.StatusCode(), data)
 }
 
+func OK(c *gin.Context, data any) {
+	JSON(c, errs.ErrOK, ToResponse(errs.ErrOK, data))
+}
+
 func FAIL(c *gin.Context, err *errs.ApiError) {
 	data := ToResponse(err, nil)
 	JSON(c, err, data)

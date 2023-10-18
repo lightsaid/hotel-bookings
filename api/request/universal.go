@@ -1,5 +1,7 @@
 package request
 
+// 通用的/公用
+
 type ListRequest struct {
 	Keyword  string `form:"keyword,omitempty"`
 	PageNum  int32  `form:"page_num" binding:"required,min=1"`
@@ -18,4 +20,8 @@ func (req ListRequest) Limit() int32 {
 
 func (req ListRequest) Offset() int32 {
 	return (req.PageNum - 1) * req.Limit()
+}
+
+type URIRequest struct {
+	ID uint32 `uri:"id" binding:"required,min=1"`
 }

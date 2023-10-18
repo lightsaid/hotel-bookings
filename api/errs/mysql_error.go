@@ -12,7 +12,7 @@ import (
 func HandleSQLError(err error) *ApiError {
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return ErrNotFound
+			return ErrNotFound.AsException(err)
 		}
 
 		var mysqlErr *mysql.MySQLError

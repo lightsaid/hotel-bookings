@@ -11,7 +11,7 @@ import (
 )
 
 // CreateHotel 创建酒店
-func (svc *Service) CreateHotel(c context.Context, req request.CreateHotelRequest) (uint32, error) {
+func (svc *Service) CreateHotel(c context.Context, req request.HotelRequest) (uint32, error) {
 	arg := db.InsertHotelParams{
 		Title:   req.Title,
 		Code:    req.Code,
@@ -22,11 +22,12 @@ func (svc *Service) CreateHotel(c context.Context, req request.CreateHotelReques
 }
 
 // UpdateHotel 更新酒店
-func (svc *Service) UpdateHotel(c context.Context, req request.UpdateHotelRequest) error {
+func (svc *Service) UpdateHotel(c context.Context, req request.HotelRequest) error {
 	arg := db.UpdateHotelParams{
-		Title:   sql.NullString{String: req.Title},
-		Code:    sql.NullString{String: req.Code},
-		Address: sql.NullString{String: req.Address},
+		Title:   sql.NullString{String: req.Title, Valid: true},
+		Code:    sql.NullString{String: req.Code, Valid: true},
+		Address: sql.NullString{String: req.Address, Valid: true},
+		ID:      *req.ID,
 	}
 
 	return svc.store.UpdateHotel(c, arg)
@@ -64,4 +65,14 @@ func (svc *Service) GetListHotels(c context.Context, req request.ListRequest) ([
 	totalRecords, _ := svc.store.GetHotelsByTitleRecords(c, db.GetHotelsByTitleRecordsParams(arg))
 
 	return data, totalRecords, nil
+}
+
+// GetHotelByID 获取一个酒店
+func (srv *Service) GetHotelByID(c context.Context, id uint32) (*db.Hotel, error) {
+	return srv.store.GetHotelByID(c, id)
+}
+
+// DeleteHotelByID 删除一个酒店
+func (srv *Service) DeleteHotelByID(c context.Context, id uint32) error {
+	return srv.store.DeleteHotelByID(c, id)
 }

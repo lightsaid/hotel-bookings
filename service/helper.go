@@ -25,6 +25,5 @@ func HandleInsert[T insertParams](
 	if err != nil {
 		return 0, err
 	}
-
 	return uint32(newID), nil
 }

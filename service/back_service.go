@@ -8,7 +8,9 @@ import (
 )
 
 type BackService interface {
-	CreateHotel(c context.Context, req request.CreateHotelRequest) (uint32, error)
-	UpdateHotel(c context.Context, req request.UpdateHotelRequest) error
+	CreateHotel(c context.Context, req request.HotelRequest) (uint32, error)
+	UpdateHotel(c context.Context, req request.HotelRequest) error
 	GetListHotels(c context.Context, req request.ListRequest) ([]*db.Hotel, int64, error)
+	GetHotelByID(c context.Context, id uint32) (*db.Hotel, error)
+	DeleteHotelByID(c context.Context, id uint32) error
 }

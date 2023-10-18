@@ -1,7 +1,7 @@
 # 系统参数配置，本地运行配置
 [Server]
 AppMode = "debug" # debug 开发环境, release 生产环境, test 测试；这里和 Gin 保持一致。
-Port = 9527
+Port = 9500
 
 [MySQL]
 Host = ""
