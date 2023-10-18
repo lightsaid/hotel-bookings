@@ -22,6 +22,10 @@ func HandleSQLError(err error) *ApiError {
 				return ErrRecordExists.AsMessage(MsgHotelCodeExists).AsException(err)
 			}
 
+			if strings.Contains(err.Error(), "unq_roomNumber_hotelId") {
+				return ErrRecordExists.AsMessage(MsgHotelRoomNumberExists).AsException(err)
+			}
+
 			// NOTE: 根据业务错误处理
 			return ErrRecordExists.AsException(err)
 		}

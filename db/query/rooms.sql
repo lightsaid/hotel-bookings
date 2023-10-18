@@ -30,8 +30,14 @@ WHERE id = sqlc.arg(id) AND is_deleted = 0;
 -- name: GetRooms :many
 SELECT * FROM rooms WHERE is_deleted = 0 ORDER BY updated_at LIMIT ? OFFSET ?;
 
+-- name: GetRoomsTotalRecords :one
+SELECT COUNT(*) as total_records FROM rooms WHERE is_deleted = 0;
+
 -- name: GetRoomsByHotelID :many
 SELECT * FROM rooms WHERE hotel_id = ? AND is_deleted = 0 ORDER BY updated_at LIMIT ? OFFSET ?;
+
+-- name: GetRoomsByHotelIDTotalRecords :one
+SELECT COUNT(*) as total_records FROM rooms WHERE hotel_id = ? AND is_deleted = 0;
 
 -- name: GetRoomByID :one
 SELECT * FROM rooms WHERE id = ? AND is_deleted = 0;

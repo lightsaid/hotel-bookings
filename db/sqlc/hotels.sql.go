@@ -120,33 +120,22 @@ func (q *Queries) GetHotelsByTitle(ctx context.Context, arg GetHotelsByTitlePara
 }
 
 const GetHotelsByTitleRecords = `-- name: GetHotelsByTitleRecords :one
-SELECT COUNT(*) as total_records FROM hotels WHERE title LIKE ? AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?
+SELECT COUNT(*) as total_records FROM hotels WHERE title LIKE ? AND is_deleted = 0
 `
 
-type GetHotelsByTitleRecordsParams struct {
-	Title  string `json:"title"`
-	Limit  int32  `json:"limit"`
-	Offset int32  `json:"offset"`
-}
-
-func (q *Queries) GetHotelsByTitleRecords(ctx context.Context, arg GetHotelsByTitleRecordsParams) (int64, error) {
-	row := q.db.QueryRowContext(ctx, GetHotelsByTitleRecords, arg.Title, arg.Limit, arg.Offset)
+func (q *Queries) GetHotelsByTitleRecords(ctx context.Context, title string) (int64, error) {
+	row := q.db.QueryRowContext(ctx, GetHotelsByTitleRecords, title)
 	var total_records int64
 	err := row.Scan(&total_records)
 	return total_records, err
 }
 
 const GetHotelsTotalRecords = `-- name: GetHotelsTotalRecords :one
-SELECT COUNT(*) as total_records FROM hotels WHERE is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?
+SELECT COUNT(*) as total_records FROM hotels WHERE is_deleted = 0
 `
 
-type GetHotelsTotalRecordsParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) GetHotelsTotalRecords(ctx context.Context, arg GetHotelsTotalRecordsParams) (int64, error) {
-	row := q.db.QueryRowContext(ctx, GetHotelsTotalRecords, arg.Limit, arg.Offset)
+func (q *Queries) GetHotelsTotalRecords(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, GetHotelsTotalRecords)
 	var total_records int64
 	err := row.Scan(&total_records)
 	return total_records, err

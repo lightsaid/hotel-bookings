@@ -3,9 +3,10 @@ package request
 // 通用的/公用
 
 type ListRequest struct {
-	Keyword  string `form:"keyword,omitempty"`
-	PageNum  int32  `form:"page_num" binding:"required,min=1"`
-	PageSize int32  `form:"page_size" binding:"required,min=5"`
+	Keyword  string  `form:"keyword,omitempty"`
+	ID       *uint32 `form:"id,omitempty" binding:"omitempty,min=1"`
+	PageNum  int32   `form:"page_num" binding:"required,min=1"`
+	PageSize int32   `form:"page_size" binding:"required,min=5"`
 }
 
 func (req ListRequest) Limit() int32 {

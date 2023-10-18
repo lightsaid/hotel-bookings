@@ -134,6 +134,28 @@ func (q *Queries) GetRoomsByHotelID(ctx context.Context, arg GetRoomsByHotelIDPa
 	return items, nil
 }
 
+const GetRoomsByHotelIDTotalRecords = `-- name: GetRoomsByHotelIDTotalRecords :one
+SELECT COUNT(*) as total_records FROM rooms WHERE hotel_id = ? AND is_deleted = 0
+`
+
+func (q *Queries) GetRoomsByHotelIDTotalRecords(ctx context.Context, hotelID uint32) (int64, error) {
+	row := q.db.QueryRowContext(ctx, GetRoomsByHotelIDTotalRecords, hotelID)
+	var total_records int64
+	err := row.Scan(&total_records)
+	return total_records, err
+}
+
+const GetRoomsTotalRecords = `-- name: GetRoomsTotalRecords :one
+SELECT COUNT(*) as total_records FROM rooms WHERE is_deleted = 0
+`
+
+func (q *Queries) GetRoomsTotalRecords(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, GetRoomsTotalRecords)
+	var total_records int64
+	err := row.Scan(&total_records)
+	return total_records, err
+}
+
 const InsertRoom = `-- name: InsertRoom :execresult
 INSERT INTO rooms(
     hotel_id,

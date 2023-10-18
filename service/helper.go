@@ -8,7 +8,8 @@ import (
 )
 
 type insertParams interface {
-	db.InsertHotelParams
+	db.InsertHotelParams |
+		db.InsertRoomParams
 }
 
 // HandleInsert 插入数据公共函数

@@ -8,6 +8,28 @@ import (
 	"time"
 )
 
+// 预订表
+type Booking struct {
+	// 主键
+	ID uint32 `json:"id"`
+	// 外键,用户表ID
+	UserID uint32 `json:"user_id"`
+	// 入住日期
+	BookingFrom time.Time `json:"booking_from"`
+	// 退房日期
+	BookingTo time.Time `json:"booking_to"`
+	// 外键,客房表ID
+	RoomID uint32 `json:"room_id"`
+	// 入住人数
+	Members uint32 `json:"members"`
+	// 总金额(单位分)
+	TotalAmount uint32 `json:"total_amount"`
+	// 创建时间
+	CreatedAt time.Time `json:"created_at"`
+	// 更新时间
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 // 预定类型表
 type BookingStatus struct {
 	// 主键
@@ -72,4 +94,24 @@ type RoomType struct {
 	RoomType string `json:"room_type"`
 	// 客房类型标签
 	RoomLabel string `json:"room_label"`
+}
+
+// 用户表
+type User struct {
+	// 主键
+	ID uint32 `json:"id"`
+	// 用户手机号码
+	PhoneNumber string `json:"phone_number"`
+	// 哈希密码
+	HashedPassword string `json:"hashed_password"`
+	// 用户名称
+	Username string `json:"username"`
+	// 用户头像
+	Avatar string `json:"avatar"`
+	// 创建时间
+	CreatedAt time.Time `json:"created_at"`
+	// 更新时间
+	UpdatedAt time.Time `json:"updated_at"`
+	// 是否删除, 0:正常, 1:删除
+	IsDeleted bool `json:"is_deleted"`
 }

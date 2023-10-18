@@ -10,22 +10,32 @@ import (
 )
 
 type Querier interface {
+	CreateUser(ctx context.Context, arg CreateUserParams) (sql.Result, error)
 	DeleteHotelByID(ctx context.Context, id uint32) error
 	DeleteRoomByID(ctx context.Context, id uint32) error
 	GetHotelByID(ctx context.Context, id uint32) (*Hotel, error)
 	GetHotels(ctx context.Context, arg GetHotelsParams) ([]*Hotel, error)
 	GetHotelsByTitle(ctx context.Context, arg GetHotelsByTitleParams) ([]*Hotel, error)
-	GetHotelsByTitleRecords(ctx context.Context, arg GetHotelsByTitleRecordsParams) (int64, error)
-	GetHotelsTotalRecords(ctx context.Context, arg GetHotelsTotalRecordsParams) (int64, error)
+	GetHotelsByTitleRecords(ctx context.Context, title string) (int64, error)
+	GetHotelsTotalRecords(ctx context.Context) (int64, error)
 	GetRoomByID(ctx context.Context, id uint32) (*Room, error)
 	GetRooms(ctx context.Context, arg GetRoomsParams) ([]*Room, error)
 	GetRoomsByHotelID(ctx context.Context, arg GetRoomsByHotelIDParams) ([]*Room, error)
+	GetRoomsByHotelIDTotalRecords(ctx context.Context, hotelID uint32) (int64, error)
+	GetRoomsTotalRecords(ctx context.Context) (int64, error)
+	GetUserByID(ctx context.Context, id uint32) (*User, error)
+	GetUserByPhoneNumber(ctx context.Context, phoneNumber string) (*User, error)
 	InsertHotel(ctx context.Context, arg InsertHotelParams) (sql.Result, error)
 	InsertRoom(ctx context.Context, arg InsertRoomParams) (sql.Result, error)
+	ListBookingStatus(ctx context.Context) ([]*BookingStatus, error)
+	ListRoomTypes(ctx context.Context) ([]*RoomType, error)
+	ListUsers(ctx context.Context, arg ListUsersParams) ([]*ListUsersRow, error)
+	ListUsersTotal(ctx context.Context) (int64, error)
 	UpdateHotel(ctx context.Context, arg UpdateHotelParams) error
 	UpdateRoom(ctx context.Context, arg UpdateRoomParams) error
 	UpdateRoomBookingStatus(ctx context.Context, arg UpdateRoomBookingStatusParams) error
 	UpdateRoomType(ctx context.Context, arg UpdateRoomTypeParams) error
+	UpdateUser(ctx context.Context, arg UpdateUserParams) error
 }
 
 var _ Querier = (*Queries)(nil)

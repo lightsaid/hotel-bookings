@@ -46,7 +46,7 @@ func (svc *Service) GetListHotels(c context.Context, req request.ListRequest) ([
 			return nil, 0, err
 		}
 
-		totalRecords, _ := svc.store.GetHotelsTotalRecords(c, db.GetHotelsTotalRecordsParams(arg))
+		totalRecords, _ := svc.store.GetHotelsTotalRecords(c)
 
 		return data, totalRecords, nil
 	}
@@ -62,7 +62,7 @@ func (svc *Service) GetListHotels(c context.Context, req request.ListRequest) ([
 		return nil, 0, err
 	}
 
-	totalRecords, _ := svc.store.GetHotelsByTitleRecords(c, db.GetHotelsByTitleRecordsParams(arg))
+	totalRecords, _ := svc.store.GetHotelsByTitleRecords(c, arg.Title)
 
 	return data, totalRecords, nil
 }
@@ -75,4 +75,14 @@ func (srv *Service) GetHotelByID(c context.Context, id uint32) (*db.Hotel, error
 // DeleteHotelByID 删除一个酒店
 func (srv *Service) DeleteHotelByID(c context.Context, id uint32) error {
 	return srv.store.DeleteHotelByID(c, id)
+}
+
+// GetListRoomTypes 获取所有客房类型
+func (svc *Service) GetListRoomTypes(c context.Context) ([]*db.RoomType, error) {
+	return svc.store.ListRoomTypes(c)
+}
+
+// GetListBookingStatus 获取所有预订状态
+func (svc *Service) GetListBookingStatus(c context.Context) ([]*db.BookingStatus, error) {
+	return svc.store.ListBookingStatus(c)
 }

@@ -39,6 +39,8 @@ func BackendRouter() *gin.Engine {
 
 		auth.GET("/room_types", roomTypeApi.ListRoomTypes)              // 客房类型列表
 		auth.GET("/booking_status", bookingStatusApi.ListBookingStatus) // 预定状态列表
+
+		auth.GET("/users", userApi.ListUsers)
 	}
 
 	return mux

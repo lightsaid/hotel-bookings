@@ -47,10 +47,11 @@ func (*HotelApi) ListHotels(c *gin.Context) {
 		return
 	}
 
-	meta := reps.CalculateMetadata(total, req.PageNum, req.PageSize)
-	data := reps.ToListResponse(list, meta, errs.ErrOK)
+	// meta := reps.CalculateMetadata(total, req.PageNum, req.PageSize)
+	// data := reps.ToListResponse(list, meta, errs.ErrOK)
+	// reps.JSON(c, errs.ErrOK, data)
 
-	reps.JSON(c, errs.ErrOK, data)
+	reps.PAGE(c, list, total, req.PageNum, req.PageSize)
 }
 
 func (*HotelApi) GetHotel(c *gin.Context) {

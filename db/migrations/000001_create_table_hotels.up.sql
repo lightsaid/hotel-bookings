@@ -7,6 +7,6 @@ CREATE TABLE `hotels` (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW() COMMENT "更新时间",
     is_deleted tinyint(1) NOT NULL DEFAULT 0 COMMENT "是否删除, 0:正常, 1:删除",
     INDEX idx_hotelCode(title),
-    INDEX idx_isActive(is_deleted),
+    INDEX idx_isDeleted(is_deleted),
     UNIQUE unq_hotelCode(code)
 ) COMMENT="酒店表";

@@ -14,7 +14,7 @@ CREATE TABLE `rooms` (
     INDEX idx_hotelId(hotel_id),
     INDEX idx_bookingStatusId(booking_status_id),
     INDEX idx_roomTypeId(room_type_id),
-    INDEX idx_isActive(is_deleted)
+    INDEX idx_isDeleted(is_deleted)
 ) COMMENT="客房表";
 
 -- 每个酒店下，客房号是唯一

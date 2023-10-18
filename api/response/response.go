@@ -62,3 +62,9 @@ func FAIL(c *gin.Context, err *errs.ApiError) {
 	data := ToResponse(err, nil)
 	JSON(c, err, data)
 }
+
+func PAGE(c *gin.Context, list any, total int64, pageNum, pageSize int32) {
+	meta := CalculateMetadata(total, pageNum, pageSize)
+	result := ToListResponse(list, meta, errs.ErrOK)
+	JSON(c, errs.ErrOK, result)
+}
