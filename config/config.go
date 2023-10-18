@@ -5,11 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	ut "github.com/go-playground/universal-translator"
 )
 
-// 将配置解析到Cfg成全局变量
-var Cfg Config
-var DB *sql.DB
+// 成全局变量
+var (
+	Cfg   Config
+	DB    *sql.DB
+	Trans ut.Translator
+)
 
 type Config struct {
 	Server Server

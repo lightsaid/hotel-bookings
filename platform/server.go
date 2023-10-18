@@ -7,6 +7,7 @@ import (
 	"time"
 
 	api "github.com/lightsaid/hotel-bookings/api/back"
+	"github.com/lightsaid/hotel-bookings/api/validate"
 	"github.com/lightsaid/hotel-bookings/config"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
 	"github.com/lightsaid/hotel-bookings/routers/back_routers"
@@ -14,7 +15,7 @@ import (
 	"github.com/lightsaid/hotel-bookings/service/back"
 )
 
-// 做前、端端 API 服务启动时的公共事情
+// 做 前端、后台 API服务启动时的公共事情
 
 type AppType string
 
@@ -34,6 +35,10 @@ func NewApp(appType AppType) *App {
 }
 
 func (app *App) serve() {
+	// 初始化数据库
+	initMySQL()
+	defer config.DB.Close()
+
 	var mux http.Handler
 	if app.appType == Backend {
 		// 设置 back 服务需要的对象
@@ -42,6 +47,8 @@ func (app *App) serve() {
 	} else {
 		mux = front_routers.FrontendRouter()
 	}
+
+	config.Trans = validate.NewValidation("zh")
 
 	addr := fmt.Sprintf("0.0.0.0:%d", config.Cfg.Server.Port)
 	server := http.Server{
@@ -59,8 +66,6 @@ func (app *App) serve() {
 }
 
 func (app *App) setupBack() {
-	// 初始化数据库
-	initMySQL()
 	store := db.NewSQLStore(config.DB)
 	// 初始化 back 服务
 	api.InitService(back.NewService(store))

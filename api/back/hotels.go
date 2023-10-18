@@ -1,9 +1,8 @@
 package back
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/lightsaid/hotel-bookings/api/errs"
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 )
@@ -19,19 +18,20 @@ func (*HotelApi) UpdateHotel(c *gin.Context) {
 }
 
 func (*HotelApi) ListHotels(c *gin.Context) {
-	req := request.ListRequest{
-		PageNum:  1,
-		PageSize: 10,
+	var req request.ListRequest
+	if ok := request.ShouldBind(c, &req, request.BindQuery); !ok {
+		return
 	}
 	list, total, err := svc.GetListHotels(c, req)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"error": err})
+	if err := errs.HandleSQLError(err); err != nil {
+		reps.FAIL(c, err)
 		return
 	}
 
-	data := reps.ToListResponse(list, total, req.PageNum, req.PageSize)
+	meta := reps.CalculateMetadata(total, req.PageNum, req.PageSize)
+	data := reps.ToListResponse(list, meta, errs.ErrOK)
 
-	c.JSON(http.StatusOK, gin.H{"result": data})
+	reps.JSON(c, errs.ErrOK, data)
 }
 
 func (*HotelApi) GetHotel(c *gin.Context) {

@@ -1,17 +1,17 @@
 package request
 
 type ListRequest struct {
-	Keyword  string `json:"keyword,omitempty"`
-	PageNum  int32  `josn:"page_num,omitempty"`
-	PageSize int32  `json:"page_size,omitempty"`
+	Keyword  string `form:"keyword,omitempty"`
+	PageNum  int32  `form:"page_num" binding:"required,min=1"`
+	PageSize int32  `form:"page_size" binding:"required,min=5"`
 }
 
 func (req ListRequest) Limit() int32 {
 	if req.PageSize > 100 {
 		req.PageSize = 100
 	}
-	if req.PageSize < 10 {
-		req.PageSize = 10
+	if req.PageSize < 5 {
+		req.PageSize = 5
 	}
 	return req.PageSize
 }
