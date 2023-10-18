@@ -8,7 +8,6 @@ import (
 // BackendRouter 后台路由
 func BackendRouter() *gin.Engine {
 	gin.SetMode(config.Cfg.Server.AppMode)
-
 	mux := gin.New()
 
 	// TODO: 自己定义

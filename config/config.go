@@ -1,6 +1,7 @@
 package config
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -8,6 +9,7 @@ import (
 
 // 将配置解析到Cfg成全局变量
 var Cfg Config
+var DB *sql.DB
 
 type Config struct {
 	Server Server

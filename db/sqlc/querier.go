@@ -15,6 +15,8 @@ type Querier interface {
 	GetHotelByID(ctx context.Context, id uint32) (*Hotel, error)
 	GetHotels(ctx context.Context, arg GetHotelsParams) ([]*Hotel, error)
 	GetHotelsByTitle(ctx context.Context, arg GetHotelsByTitleParams) ([]*Hotel, error)
+	GetHotelsByTitleRecords(ctx context.Context, arg GetHotelsByTitleRecordsParams) (int64, error)
+	GetHotelsTotalRecords(ctx context.Context, arg GetHotelsTotalRecordsParams) (int64, error)
 	GetRoomByID(ctx context.Context, id uint32) (*Room, error)
 	GetRooms(ctx context.Context, arg GetRoomsParams) ([]*Room, error)
 	GetRoomsByHotelID(ctx context.Context, arg GetRoomsByHotelIDParams) ([]*Room, error)

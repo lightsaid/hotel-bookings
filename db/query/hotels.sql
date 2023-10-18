@@ -16,8 +16,14 @@ SELECT * FROM hotels WHERE id = ? AND is_deleted = 0;
 -- name: GetHotels :many
 SELECT * FROM hotels WHERE is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
 
+-- name: GetHotelsTotalRecords :one
+SELECT COUNT(*) as total_records FROM hotels WHERE is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
+
 -- name: GetHotelsByTitle :many
 SELECT * FROM hotels WHERE title LIKE ? AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
+
+-- name: GetHotelsByTitleRecords :one
+SELECT COUNT(*) as total_records FROM hotels WHERE title LIKE ? AND is_deleted = 0 ORDER BY id LIMIT ? OFFSET ?;
 
 -- name: DeleteHotelByID :exec
 UPDATE hotels SET is_deleted = 1, updated_at = NOW() WHERE id = ? and is_deleted = 0;
