@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/lightsaid/hotel-bookings/api/request"
+	reps "github.com/lightsaid/hotel-bookings/api/response"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
 	"github.com/lightsaid/hotel-bookings/pkg/errs"
 )
@@ -26,4 +27,5 @@ type BackService interface {
 	UpdateRoomStatus(c context.Context, req request.UpdateRoomStatusRequest) *errs.ApiError
 
 	ListUsers(c context.Context, req request.ListRequest) (list []*db.ListUsersRow, total int64, err *errs.ApiError)
+	LoginUser(c context.Context, req request.LoginRequest) (*reps.LoginResponse, *errs.ApiError)
 }
