@@ -7,19 +7,22 @@ import (
 	"time"
 
 	ut "github.com/go-playground/universal-translator"
+	"github.com/lightsaid/hotel-bookings/pkg/token"
 )
 
 // 成全局变量
 var (
-	Cfg   Config
-	DB    *sql.DB
-	Trans ut.Translator
+	Cfg        Config
+	DB         *sql.DB
+	Trans      ut.Translator
+	TokenMaker token.TokenMaker
 )
 
 type Config struct {
 	Server Server
 	MySQL  MySQL
 	Redis  Redis
+	Token  Token
 }
 
 // JSON 以 JSON 格式打印配置
@@ -34,6 +37,7 @@ func (c *Config) JSON() {
 
 type Server struct {
 	AppMode string
+	Host    string
 	Port    int
 }
 
@@ -64,4 +68,10 @@ type Redis struct {
 	Addr     string
 	DB       int
 	Password string
+}
+
+type Token struct {
+	TokenScretkey        string
+	AccessTokenDuration  time.Duration
+	RefreshTokenDuration time.Duration
 }

@@ -1,7 +1,9 @@
 # 系统参数配置，本地运行配置
 [Server]
 AppMode = "debug" # debug 开发环境, release 生产环境, test 测试；这里和 Gin 保持一致。
+Host = "http://localhost"
 Port = 9500
+
 
 [MySQL]
 Host = ""
@@ -17,3 +19,8 @@ MaxIdleTime = "5m"
 Addr = "localhost:6379" # addr
 DB = 7 # 数据库 0-16
 Password = "" # 密码，如果有的
+
+[Token]
+TokenScretkey = "QWERTYUIOPasdfghjklzxcvbnmm@.@^_^"
+AccessTokenDuration = "15m"
+RefreshTokenDuration = "72h"

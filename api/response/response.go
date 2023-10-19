@@ -45,6 +45,7 @@ type Responder interface {
 	Response | ListResponse
 }
 
+// JSON 通用响应方法
 func JSON[T Responder](c *gin.Context, err *errs.ApiError, data *T) {
 	if err.StatusCode() != http.StatusOK {
 		// TODO: log
@@ -54,15 +55,18 @@ func JSON[T Responder](c *gin.Context, err *errs.ApiError, data *T) {
 	c.JSON(err.StatusCode(), data)
 }
 
+// OK 成功的响应
 func OK(c *gin.Context, data any) {
 	JSON(c, errs.ErrOK, ToResponse(errs.ErrOK, data))
 }
 
+// FAIL 错误的响应
 func FAIL(c *gin.Context, err *errs.ApiError) {
 	data := ToResponse(err, nil)
 	JSON(c, err, data)
 }
 
+// PAGE 查询分页数据的响应
 func PAGE(c *gin.Context, list any, total int64, pageNum, pageSize int32) {
 	meta := CalculateMetadata(total, pageNum, pageSize)
 	result := ToListResponse(list, meta, errs.ErrOK)

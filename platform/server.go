@@ -39,6 +39,10 @@ func (app *App) serve() {
 	initMySQL()
 	defer config.DB.Close()
 
+	initTokenMaker()
+
+	config.Trans = validate.NewValidation("zh")
+
 	var mux http.Handler
 	if app.appType == Backend {
 		// 设置 back 服务需要的对象
@@ -47,8 +51,6 @@ func (app *App) serve() {
 	} else {
 		mux = front_routers.FrontendRouter()
 	}
-
-	config.Trans = validate.NewValidation("zh")
 
 	addr := fmt.Sprintf("0.0.0.0:%d", config.Cfg.Server.Port)
 	server := http.Server{
