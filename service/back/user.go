@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 
-	"github.com/lightsaid/hotel-bookings/api/errs"
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
+	"github.com/lightsaid/hotel-bookings/pkg/errs"
 )
 
 var (
@@ -15,14 +15,16 @@ var (
 	ErrMismatchedPaswd = errors.New("账号或者密码不匹配")
 )
 
-func (svc *Service) ListUsers(c context.Context, req request.ListRequest) (list []*db.ListUsersRow, total int64, err error) {
+func (svc *Service) ListUsers(c context.Context, req request.ListRequest) (list []*db.ListUsersRow, total int64, apierr *errs.ApiError) {
 	arg := db.ListUsersParams{
 		Limit:  req.Limit(),
 		Offset: req.Offset(),
 	}
 
+	var err error
 	list, err = svc.store.ListUsers(c, arg)
 	if err != nil {
+		apierr = errs.HandleSQLError(err)
 		return
 	}
 

@@ -2,7 +2,6 @@ package back
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lightsaid/hotel-bookings/api/errs"
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 )
@@ -16,7 +15,7 @@ func (*RoomApi) CreateRoom(c *gin.Context) {
 	}
 
 	newID, err := svc.CreateRoom(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -31,7 +30,7 @@ func (*RoomApi) UpdateRoom(c *gin.Context) {
 	}
 
 	err := svc.UpdateRoom(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -46,7 +45,7 @@ func (*RoomApi) ListRooms(c *gin.Context) {
 	}
 
 	list, total, err := svc.ListRooms(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -60,7 +59,7 @@ func (*RoomApi) GetRoom(c *gin.Context) {
 	}
 
 	room, err := svc.GetRoomByID(c, req.ID)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -74,7 +73,7 @@ func (*RoomApi) DeleteRoom(c *gin.Context) {
 		return
 	}
 	err := svc.DeleteRoom(c, req.ID)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -89,7 +88,7 @@ func (*RoomApi) UpdateType(c *gin.Context) {
 	}
 
 	err := svc.UpdateRoomType(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -104,7 +103,7 @@ func (*RoomApi) UpdateStatus(c *gin.Context) {
 	}
 
 	err := svc.UpdateRoomStatus(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}

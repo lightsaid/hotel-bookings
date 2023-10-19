@@ -2,7 +2,6 @@ package back
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lightsaid/hotel-bookings/api/errs"
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 )
@@ -15,7 +14,7 @@ func (*UserApi) ListUsers(c *gin.Context) {
 		return
 	}
 	list, total, err := svc.ListUsers(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}

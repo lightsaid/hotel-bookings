@@ -2,7 +2,6 @@ package back
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lightsaid/hotel-bookings/api/errs"
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 )
@@ -16,7 +15,7 @@ func (*HotelApi) CreateHotel(c *gin.Context) {
 	}
 	newID, err := svc.CreateHotel(c, req)
 	if err != nil {
-		reps.FAIL(c, errs.HandleSQLError(err))
+		reps.FAIL(c, err)
 		return
 	}
 	reps.OK(c, newID)
@@ -30,7 +29,7 @@ func (*HotelApi) UpdateHotel(c *gin.Context) {
 
 	err := svc.UpdateHotel(c, req)
 	if err != nil {
-		reps.FAIL(c, errs.HandleSQLError(err))
+		reps.FAIL(c, err)
 		return
 	}
 	reps.OK(c, req.ID)
@@ -42,7 +41,7 @@ func (*HotelApi) ListHotels(c *gin.Context) {
 		return
 	}
 	list, total, err := svc.GetListHotels(c, req)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -61,7 +60,7 @@ func (*HotelApi) GetHotel(c *gin.Context) {
 	}
 
 	hotel, err := svc.GetHotelByID(c, req.ID)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}
@@ -76,7 +75,7 @@ func (*HotelApi) DeleteHotel(c *gin.Context) {
 	}
 
 	err := svc.DeleteHotelByID(c, req.ID)
-	if err := errs.HandleSQLError(err); err != nil {
+	if err != nil {
 		reps.FAIL(c, err)
 		return
 	}

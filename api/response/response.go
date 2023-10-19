@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lightsaid/hotel-bookings/api/errs"
+	"github.com/lightsaid/hotel-bookings/pkg/errs"
 )
 
 // Response 通用数据响应结构

@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/lightsaid/hotel-bookings/api/errs"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/pkg/errs"
 )
 
 // 绑定参数类型
