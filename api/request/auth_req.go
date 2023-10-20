@@ -17,3 +17,9 @@ type LoginRequest struct {
 type RenewAccessTokenRequest struct {
 	RefreshToken string `json:"refresh_token" binding:"required"`
 }
+
+type ReqisterRequest struct {
+	UserName    string `json:"username" binding:"required,min=2,max=20"`
+	PhoneNumber string `json:"phone_number" binding:"required,vPhone"`
+	Password    string `json:"password" binding:"omitempty,min=6,max=16"`
+}

@@ -20,10 +20,16 @@ go:
 ## back/start: 启动后台api服务
 back/start:
 	go run cmd/backend/main.go
+
+## front/start: 启动前台api服务
+front/start:
+	go run cmd/frontend/main.go
 	
 ## rm/uploads: 删除上传文件
 rm/uploads:
 	rm -rf ./static/uploads/*
+
+.PHONY: go back/start back/start rm/uploads
 
 # ==================================================================================== #
 # docker-compose

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	api "github.com/lightsaid/hotel-bookings/api/back"
+	backApi "github.com/lightsaid/hotel-bookings/api/back"
 	"github.com/lightsaid/hotel-bookings/api/validate"
 	"github.com/lightsaid/hotel-bookings/config"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
@@ -49,6 +49,7 @@ func (app *App) serve() {
 		app.setupBack()
 		mux = back_routers.BackendRouter()
 	} else {
+		app.setupFront()
 		mux = front_routers.FrontendRouter()
 	}
 
@@ -70,7 +71,13 @@ func (app *App) serve() {
 func (app *App) setupBack() {
 	store := db.NewSQLStore(config.DB)
 	// 初始化 back 服务
-	api.InitService(back.NewService(store))
+	backApi.InitService(back.NewService(store))
+}
+
+func (app *App) setupFront() {
+	store := db.NewSQLStore(config.DB)
+	// 初始化 back 服务
+	backApi.InitService(back.NewService(store))
 }
 
 func (app *App) Start(config *config.Config) {

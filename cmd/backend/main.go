@@ -12,9 +12,9 @@ import (
 )
 
 func main() {
-	_, err := env.LoadingEnv("config.toml", &config.Cfg, "./configs")
+	_, err := env.LoadingEnv("back.toml", &config.Cfg, "./configs")
 	if err != nil {
-		log.Fatal("加载 config.toml ", err)
+		log.Fatal("加载 back.toml ", err)
 	}
 
 	platform.NewApp(platform.Backend).Start(&config.Cfg)

@@ -21,3 +21,7 @@ func ShadowPhoneNumber(phoneNumber string) string {
 
 	return phoneNumber[:3] + "*****" + phoneNumber[8:]
 }
+
+type RegisterResponse struct {
+	ID uint32 `json:"id"`
+}

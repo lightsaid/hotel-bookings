@@ -7,7 +7,7 @@
 
 开发环境基于 Mac 或 Linux。
 
-1. 执行 `make docker/up` 命令构建环境，使用下面命令
+1. 执行 `make docker/up` 命令构建环境
 
 2. 使用DBMS工具（如：navicat、SQLyog、DBeaver...）连接到mysql，设置变数据库编码为 utf8mb4、utf8mb4_general_ci, 或者执行下面SQL也行。
 ```sql

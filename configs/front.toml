@@ -1,0 +1,32 @@
+# 系统参数配置，本地运行配置
+[Server]
+AppMode = "debug" # debug 开发环境, release 生产环境, test 测试；这里和 Gin 保持一致。
+Host = "http://localhost"
+Port = 9000
+
+
+[MySQL]
+Host = ""
+Port = 3366
+User = "root"
+Password = "abc123"
+DbName = "db_hotel_bookings"
+MaxOpenConns = 25
+MaxIdleConns = 25
+MaxIdleTime = "5m"
+
+[Redis]
+Addr = "localhost:6379" # addr
+DB = 7 # 数据库 0-16
+Password = "" # 密码，如果有的
+
+[Token]
+TokenScretkey = "Qc0ERTYUoOPasdfghjklzLxKJcvnXm@.@^_^"
+AccessTokenDuration = "15m"
+RefreshTokenDuration = "72h"
+
+[Uploader]
+SaveDir = "static/uploads"
+AllowExts = [".png", ".jpeg", ".jpg", ".mp4"]
+MaxMB = 4 # 单位是MB，最终解析为 4 << 20
+
