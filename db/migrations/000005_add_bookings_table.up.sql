@@ -8,6 +8,8 @@ CREATE TABLE `bookings` (
     total_amount INT UNSIGNED NOT NULL COMMENT "总金额(单位分)",
     created_at TIMESTAMP NOT NULL DEFAULT NOW() COMMENT "创建时间",
     updated_at TIMESTAMP NOT NULL DEFAULT NOW() COMMENT "更新时间",
+    is_deleted tinyint(1) NOT NULL DEFAULT 0 COMMENT "是否删除, 0:正常, 1:删除",
     INDEX idx_userId(user_id),
-    INDEX idx_roomId(room_id)
+    INDEX idx_roomId(room_id),
+    INDEX idx_isDeleted(is_deleted)
 ) COMMENT="预订表";

@@ -24,3 +24,9 @@ Password = "" # 密码，如果有的
 TokenScretkey = "QWERTYUIOPasdfghjklzxcvbnmm@.@^_^"
 AccessTokenDuration = "15m"
 RefreshTokenDuration = "72h"
+
+[Uploader]
+SaveDir = "static/uploads"
+AllowExts = [".png", ".jpeg", ".jpg", ".mp4"]
+MaxMB = 4 # 单位是MB，最终解析为 4 << 20
+

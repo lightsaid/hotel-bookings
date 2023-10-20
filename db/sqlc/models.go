@@ -58,6 +58,20 @@ type Hotel struct {
 	IsDeleted bool `json:"is_deleted"`
 }
 
+// 付款表
+type Payment struct {
+	// 主键
+	ID uint32 `json:"id"`
+	// 外键,预定表ID
+	BookingID uint32 `json:"booking_id"`
+	// 支付类型(-1:取消支付,0:未支付,1:现金,2:微信,3:支付宝,4:银联,5:其他)
+	PaymentType int32 `json:"payment_type"`
+	// 付款金额(单位分)
+	PaymentAmount uint32 `json:"payment_amount"`
+	// 是否删除, 0:正常, 1:删除
+	IsDeleted bool `json:"is_deleted"`
+}
+
 // 客房表
 type Room struct {
 	// 主键
@@ -94,6 +108,28 @@ type RoomType struct {
 	RoomType string `json:"room_type"`
 	// 客房类型标签
 	RoomLabel string `json:"room_label"`
+}
+
+// 会话表
+type Session struct {
+	// 主键
+	ID uint32 `json:"id"`
+	// Token的唯一标识uuid
+	TokenID string `json:"token_id"`
+	// 外键,用户表ID
+	UserID uint32 `json:"user_id"`
+	// 用户的refresh token
+	RefreshToken string `json:"refresh_token"`
+	// 登录设备的信息
+	UserAgent string `json:"user_agent"`
+	// 登录时IP
+	ClientIp string `json:"client_ip"`
+	// session或refresh token 过期时间
+	ExpiresAt time.Time `json:"expires_at"`
+	// 创建时间
+	CreatedAt time.Time `json:"created_at"`
+	// 登录类型(0:密码登录, 1:短信验证码)
+	LoginType int32 `json:"login_type"`
 }
 
 // 用户表

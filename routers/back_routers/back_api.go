@@ -10,4 +10,5 @@ var (
 	roomTypeApi      back.RoomTypeApi
 	bookingStatusApi back.BookingStatusApi
 	userApi          back.UserApi
+	uploadApi        back.UplaodApi
 )

@@ -7,6 +7,7 @@ import (
 	reps "github.com/lightsaid/hotel-bookings/api/response"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
 	"github.com/lightsaid/hotel-bookings/pkg/errs"
+	"github.com/lightsaid/hotel-bookings/pkg/token"
 )
 
 type BackService interface {
@@ -25,7 +26,9 @@ type BackService interface {
 	DeleteRoom(c context.Context, id uint32) *errs.ApiError
 	UpdateRoomType(c context.Context, req request.UpdateRoomTypeRequest) *errs.ApiError
 	UpdateRoomStatus(c context.Context, req request.UpdateRoomStatusRequest) *errs.ApiError
+	QueryRooms(c context.Context, req request.QueryRoomsRequest) ([]*reps.QueryRoomsResponse, int64, *errs.ApiError)
 
 	ListUsers(c context.Context, req request.ListRequest) (list []*db.ListUsersRow, total int64, err *errs.ApiError)
 	LoginUser(c context.Context, req request.LoginRequest) (*reps.LoginResponse, *errs.ApiError)
+	RenewAccessToken(c context.Context, payload *token.Payload, rToken string) (string, *errs.ApiError)
 }

@@ -10,6 +10,7 @@ import (
 )
 
 type Querier interface {
+	CreateSession(ctx context.Context, arg CreateSessionParams) (sql.Result, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (sql.Result, error)
 	DeleteHotelByID(ctx context.Context, id uint32) error
 	DeleteRoomByID(ctx context.Context, id uint32) error
@@ -23,6 +24,7 @@ type Querier interface {
 	GetRoomsByHotelID(ctx context.Context, arg GetRoomsByHotelIDParams) ([]*Room, error)
 	GetRoomsByHotelIDTotalRecords(ctx context.Context, hotelID uint32) (int64, error)
 	GetRoomsTotalRecords(ctx context.Context) (int64, error)
+	GetSessionByTokenID(ctx context.Context, tokenID string) (*Session, error)
 	GetUserByID(ctx context.Context, id uint32) (*User, error)
 	GetUserByPhoneNumber(ctx context.Context, phoneNumber string) (*User, error)
 	InsertHotel(ctx context.Context, arg InsertHotelParams) (sql.Result, error)
@@ -31,6 +33,8 @@ type Querier interface {
 	ListRoomTypes(ctx context.Context) ([]*RoomType, error)
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]*ListUsersRow, error)
 	ListUsersTotal(ctx context.Context) (int64, error)
+	QueryRooms(ctx context.Context, arg QueryRoomsParams) ([]*QueryRoomsRow, error)
+	QueryRoomsTotal(ctx context.Context, arg QueryRoomsTotalParams) (int64, error)
 	UpdateHotel(ctx context.Context, arg UpdateHotelParams) error
 	UpdateRoom(ctx context.Context, arg UpdateRoomParams) error
 	UpdateRoomBookingStatus(ctx context.Context, arg UpdateRoomBookingStatusParams) error

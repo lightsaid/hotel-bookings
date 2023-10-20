@@ -21,7 +21,9 @@ go:
 back/start:
 	go run cmd/backend/main.go
 	
-
+## rm/uploads: 删除上传文件
+rm/uploads:
+	rm -rf ./static/uploads/*
 
 # ==================================================================================== #
 # docker-compose
@@ -79,9 +81,9 @@ migrate/goto:
 	go run -tags 'mysql' ${MIGRATE_CMD} -path=${MIGRATE_SQL} -database="${DB_SOURCE}" -verbose goto ${version}
 
 ## migrate/fix version=$1: 向上迁移过程中如果出错，执行此命令快速修复，先强制升迁成功，再向下迁移
-migrate/fix:
-	make migrate/force version=${version}
-	make migrate/down1
+# migrate/fix:
+# 	make migrate/force version=${version}
+# 	make migrate/down1
 
 # migrate/version: 查看当前的迁移版本
 migrate/version:

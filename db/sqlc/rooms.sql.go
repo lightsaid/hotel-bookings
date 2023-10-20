@@ -195,6 +195,163 @@ func (q *Queries) InsertRoom(ctx context.Context, arg InsertRoomParams) (sql.Res
 	)
 }
 
+const QueryRooms = `-- name: QueryRooms :many
+SELECT 
+    r.id,
+    r.hotel_id,
+    r.room_number,
+    r.room_image,
+    r.room_price,
+    r.booking_status_id,
+    r.room_type_id,
+    r.room_capacity,
+    r.room_description,
+    h.title,
+    h.code,
+    rt.room_label,
+    rt.room_type,
+    bs.status_label,
+    bs.status_type
+FROM 
+    rooms r  
+INNER JOIN 
+    hotels h
+ON 
+    h.id = r.hotel_id
+LEFT JOIN 
+    room_types rt
+ON 
+    rt.id = r.room_type_id
+LEFT JOIN
+    booking_status bs
+ON
+    bs.id = r.booking_status_id
+WHERE 
+    r.is_deleted = 0
+    AND (CASE WHEN ? > 0 THEN r.hotel_id = ? ELSE TRUE END)
+    AND (CASE WHEN ? > 0 THEN r.hotel_id = ? ELSE TRUE END)
+    AND (CASE WHEN ? > 0 THEN r.booking_status_id = ? ELSE TRUE END)
+ORDER BY r.id 
+LIMIT ? OFFSET ?
+`
+
+type QueryRoomsParams struct {
+	HotelID         uint32 `json:"hotel_id"`
+	RoomTypeID      uint32 `json:"room_type_id"`
+	BookingStatusID uint32 `json:"booking_status_id"`
+	Limit           int32  `json:"limit"`
+	Offset          int32  `json:"offset"`
+}
+
+type QueryRoomsRow struct {
+	ID              uint32         `json:"id"`
+	HotelID         uint32         `json:"hotel_id"`
+	RoomNumber      string         `json:"room_number"`
+	RoomImage       string         `json:"room_image"`
+	RoomPrice       uint32         `json:"room_price"`
+	BookingStatusID uint32         `json:"booking_status_id"`
+	RoomTypeID      uint32         `json:"room_type_id"`
+	RoomCapacity    uint32         `json:"room_capacity"`
+	RoomDescription string         `json:"room_description"`
+	Title           string         `json:"title"`
+	Code            string         `json:"code"`
+	RoomLabel       sql.NullString `json:"room_label"`
+	RoomType        sql.NullString `json:"room_type"`
+	StatusLabel     sql.NullString `json:"status_label"`
+	StatusType      sql.NullString `json:"status_type"`
+}
+
+func (q *Queries) QueryRooms(ctx context.Context, arg QueryRoomsParams) ([]*QueryRoomsRow, error) {
+	rows, err := q.db.QueryContext(ctx, QueryRooms,
+		arg.HotelID,
+		arg.HotelID,
+		arg.RoomTypeID,
+		arg.RoomTypeID,
+		arg.BookingStatusID,
+		arg.BookingStatusID,
+		arg.Limit,
+		arg.Offset,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []*QueryRoomsRow{}
+	for rows.Next() {
+		var i QueryRoomsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.HotelID,
+			&i.RoomNumber,
+			&i.RoomImage,
+			&i.RoomPrice,
+			&i.BookingStatusID,
+			&i.RoomTypeID,
+			&i.RoomCapacity,
+			&i.RoomDescription,
+			&i.Title,
+			&i.Code,
+			&i.RoomLabel,
+			&i.RoomType,
+			&i.StatusLabel,
+			&i.StatusType,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, &i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const QueryRoomsTotal = `-- name: QueryRoomsTotal :one
+SELECT COUNT(*) as total
+FROM 
+    rooms r  
+INNER JOIN 
+    hotels h
+ON 
+    h.id = r.hotel_id
+LEFT JOIN 
+    room_types rt
+ON 
+    rt.id = r.room_type_id
+LEFT JOIN
+    booking_status bs
+ON
+    bs.id = r.booking_status_id
+WHERE 
+    r.is_deleted = 0
+    AND (CASE WHEN ? > 0 THEN r.hotel_id = ? ELSE TRUE END)
+    AND (CASE WHEN ? > 0 THEN r.hotel_id = ? ELSE TRUE END)
+    AND (CASE WHEN ? > 0 THEN r.booking_status_id = ? ELSE TRUE END)
+`
+
+type QueryRoomsTotalParams struct {
+	HotelID         uint32 `json:"hotel_id"`
+	RoomTypeID      uint32 `json:"room_type_id"`
+	BookingStatusID uint32 `json:"booking_status_id"`
+}
+
+func (q *Queries) QueryRoomsTotal(ctx context.Context, arg QueryRoomsTotalParams) (int64, error) {
+	row := q.db.QueryRowContext(ctx, QueryRoomsTotal,
+		arg.HotelID,
+		arg.HotelID,
+		arg.RoomTypeID,
+		arg.RoomTypeID,
+		arg.BookingStatusID,
+		arg.BookingStatusID,
+	)
+	var total int64
+	err := row.Scan(&total)
+	return total, err
+}
+
 const UpdateRoom = `-- name: UpdateRoom :exec
 UPDATE rooms 
 SET

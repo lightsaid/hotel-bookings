@@ -1,13 +1,19 @@
 package request
 
 const (
-	LoginType_SMS  = "SMS"
-	LoginType_PASS = "PASS"
+	LoginType_PASS int32 = 0
+	LoginType_SMS  int32 = 1
 )
 
 type LoginRequest struct {
 	PhoneNumber string `json:"phone_number" binding:"required,vPhone"`
 	Password    string `json:"password" binding:"omitempty,min=6,max=16"`
 	SmsCode     string `json:"sms_code" binding:"omitempty,min=4,max=8"`
-	LoginType   string `json:"login_type" binding:"required,oneof=SMS PASS"`
+	LoginType   *int32 `json:"login_type" binding:"required,oneof=0 1"`
+	UserAgent   string `json:"-" binding:"-"`
+	ClientIP    string `json:"-" binding:"-"`
+}
+
+type RenewAccessTokenRequest struct {
+	RefreshToken string `json:"refresh_token" binding:"required"`
 }

@@ -110,3 +110,17 @@ func (*RoomApi) UpdateStatus(c *gin.Context) {
 
 	reps.OK(c, req.ID)
 }
+
+func (*RoomApi) QueryRooms(c *gin.Context) {
+	var req request.QueryRoomsRequest
+	if ok := request.ShouldBind(c, &req); !ok {
+		return
+	}
+	list, total, err := svc.QueryRooms(c, req)
+	if err != nil {
+		reps.FAIL(c, err)
+		return
+	}
+
+	reps.PAGE(c, list, total, req.PageNum, req.PageSize)
+}

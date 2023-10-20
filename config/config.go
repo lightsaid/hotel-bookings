@@ -18,11 +18,23 @@ var (
 	TokenMaker token.TokenMaker
 )
 
+const (
+	// debug 开发环境
+	DebugMode = "debug"
+
+	// release 生产环境
+	ReleaseMode = "release"
+
+	// test        测试
+	TestMode = "test"
+)
+
 type Config struct {
-	Server Server
-	MySQL  MySQL
-	Redis  Redis
-	Token  Token
+	Server   Server
+	MySQL    MySQL
+	Redis    Redis
+	Token    Token
+	Uploader Uploader
 }
 
 // JSON 以 JSON 格式打印配置
@@ -74,4 +86,10 @@ type Token struct {
 	TokenScretkey        string
 	AccessTokenDuration  time.Duration
 	RefreshTokenDuration time.Duration
+}
+
+type Uploader struct {
+	SaveDir   string
+	AllowExts []string
+	MaxMB     int // 最大限制，单位: MB
 }

@@ -7,3 +7,5 @@
 # 数据存储
 storage/*
 !storage/redis/redis.conf
+
+static/uploads
