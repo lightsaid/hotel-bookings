@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 隐藏首页日期选择器其右边 icon */
+.home-datepicker + button{
+    display: none;
+}
