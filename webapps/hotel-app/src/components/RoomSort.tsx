@@ -1,9 +1,12 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { CgSortAz, CgSortZa } from "react-icons/cg"
+import { CgSortAz, CgSortZa } from "react-icons/cg";
 
-const roomSorts = [{ name: "价格：低到高", icon: CgSortZa }, { name: "价格：高到低", icon: CgSortAz }];
+const roomSorts = [
+    { name: "价格：低到高", icon: CgSortZa },
+    { name: "价格：高到低", icon: CgSortAz },
+];
 
 export function RoomSort() {
     const [selected, setSelected] = useState(roomSorts[0]);
@@ -12,14 +15,15 @@ export function RoomSort() {
         <div className="w-[130px] h-[50px] box-border">
             <Listbox value={selected} onChange={setSelected}>
                 <div className="relative">
-                    <Listbox.Button className="
+                    <Listbox.Button
+                        className="
 						relative w-full border cursor-pointer border-slate-500 
 						rounded-lg bg-white py-1 pl-8 pr-2 text-left shadow-md focus:outline-none 
 						focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white 
 						focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
-					>
-						<div>
-							<div className="absolute left-1 translate-y-[40%]">
+                    >
+                        <div>
+                            <div className="absolute left-1 translate-y-[40%]">
                                 <selected.icon className=" text-2xl" />
                             </div>
                             <p className="text-[12px] font-bold text-slate-500">

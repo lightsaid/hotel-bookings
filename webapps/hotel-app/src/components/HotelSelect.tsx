@@ -18,13 +18,15 @@ export function HotelSelect() {
         <div className="w-[220px] h-[50px] box-border">
             <Listbox value={selected} onChange={setSelected}>
                 <div className="relative">
-                    <Listbox.Button className="
+                    <Listbox.Button
+                        className="
 						relative w-full border cursor-pointer border-slate-500 
 						rounded-lg bg-white py-1 pl-8 pr-2 text-left shadow-md focus:outline-none 
 						focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white 
-						focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+						focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                    >
                         <div>
-							<div className="absolute left-2 translate-y-[58%]">
+                            <div className="absolute left-2 translate-y-[58%]">
                                 <RiHotelLine className="text-lg" />
                             </div>
                             <p className="text-[12px] font-bold text-slate-500">

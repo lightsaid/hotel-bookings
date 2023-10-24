@@ -8,12 +8,12 @@ import { FaWeixin } from "react-icons/fa6";
 
 type Variant = "LOGIN" | "REGISTER";
 type Titles = {
-    [key in Variant]: string
-}
+    [key in Variant]: string;
+};
 const titles: Titles = {
     LOGIN: "登录，欢迎回来!",
-    REGISTER: "注册，欢迎你到来!"
-}
+    REGISTER: "注册，欢迎你到来!",
+};
 export const AuthForm = () => {
     const [variant, setVariant] = useState<Variant>("LOGIN");
     const [isLoading, setIsLoading] = useState(false);
@@ -62,9 +62,11 @@ export const AuthForm = () => {
             </Dialog.Title>
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <div
-                    className="bg-white px-4 py-8 sm:px-10">
-                    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} >
+                <div className="bg-white px-4 py-8 sm:px-10">
+                    <form
+                        className="space-y-6"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
                         {variant === "REGISTER" && (
                             <Input
                                 disabled={isLoading}
@@ -93,15 +95,17 @@ export const AuthForm = () => {
                             label="密码"
                             type="password"
                         />
-                        {variant === "REGISTER" && (<Input
-                            disabled={isLoading}
-                            register={register}
-                            errors={errors}
-                            required
-                            id="repassword"
-                            label="确认密码"
-                            type="password"
-                        />)}
+                        {variant === "REGISTER" && (
+                            <Input
+                                disabled={isLoading}
+                                register={register}
+                                errors={errors}
+                                required
+                                id="repassword"
+                                label="确认密码"
+                                type="password"
+                            />
+                        )}
                         <div>
                             <Button disabled={isLoading} type="submit">
                                 {variant === "LOGIN" ? "Sign in" : "Register"}
@@ -111,9 +115,7 @@ export const AuthForm = () => {
 
                     <div className="mt-6">
                         <div className="relative">
-                            <div
-                                className="absolute inset-0 flex items-center"
-                            >
+                            <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-gray-300" />
                             </div>
                             <div className="relative flex justify-center text-sm">
@@ -137,9 +139,7 @@ export const AuthForm = () => {
                             onClick={toggleVariant}
                             className="underline cursor-pointer"
                         >
-                            {variant === "LOGIN"
-                                ? "注册"
-                                : "登录"}
+                            {variant === "LOGIN" ? "注册" : "登录"}
                         </div>
                     </div>
                 </div>
