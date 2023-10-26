@@ -1,5 +1,5 @@
 <template>
-    <router-view />
+    <div>Permission</div>
 </template>
 
 <script setup lang="ts"></script>

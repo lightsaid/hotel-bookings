@@ -24,7 +24,10 @@ ALTER DATABASE `db_hotel_bookings` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE
 
 启动前台api服务命令: `make front/start`
 
-启动前端前台命令(本地 Node:v16.20.2): 安装依赖 `cd webapps/hotel-app && npm i`, 启动项目 `npm run dev`
+启动前端用户端命令(本地 Node:v16.20.2): 安装依赖 `cd webapps/hotel-app && npm i`, 启动项目 `npm run dev`
+
+启动前端管理端命令(本地 Node:v16.20.2): 安装依赖 `cd webapps/hotel-mgt && npm i`, 启动项目 `npm run dev`
+
 
 ## 项目介绍
 
@@ -43,8 +46,15 @@ ALTER DATABASE `db_hotel_bookings` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE
 
 入参设计：service 层入参和 api 层入参使用共同的结构体，独属于service层的参数取消 json tag，避免参数定义过多。
 
-### 前端前台项目介绍
+### 前端用户端项目介绍
+
+/webapps/hotel-app
 
 技术栈：Vite、React、TypeScript、TailwindCSS
 
 
+### 前端后台管理端项目介绍
+
+/webapps/hotel-mgt
+
+技术栈：Vite、Vue3、TypeScript、Element Plus

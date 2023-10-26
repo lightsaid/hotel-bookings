@@ -1,5 +1,5 @@
 <template>
-    <router-view />
+    <div>Hotels</div>
 </template>
 
 <script setup lang="ts"></script>
