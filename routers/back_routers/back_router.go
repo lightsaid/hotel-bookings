@@ -18,7 +18,8 @@ func BackendRouter() *gin.Engine {
 	fileupload.NewLocalUploader(config.Cfg.Uploader.SaveDir, config.Cfg.Uploader.MaxMB, config.Cfg.Uploader.AllowExts...)
 
 	// TODO: 自己定义
-	mux.Use(gin.Logger())
+	// mux.Use(gin.Logger())
+	mux.Use(middleware.GenRequestID())
 	mux.Use(gin.Recovery())
 
 	mux.Static("/static", "./static")

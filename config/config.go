@@ -35,6 +35,7 @@ type Config struct {
 	Redis    Redis
 	Token    Token
 	Uploader Uploader
+	Logger   Logger
 }
 
 // JSON 以 JSON 格式打印配置
@@ -92,4 +93,9 @@ type Uploader struct {
 	SaveDir   string
 	AllowExts []string
 	MaxMB     int // 最大限制，单位: MB
+}
+
+type Logger struct {
+	Level   string
+	LogFile string
 }

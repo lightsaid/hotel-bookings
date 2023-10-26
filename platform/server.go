@@ -35,6 +35,8 @@ func NewApp(appType AppType) *App {
 }
 
 func (app *App) serve() {
+	initLogger()
+
 	// 初始化数据库
 	initMySQL()
 	defer config.DB.Close()

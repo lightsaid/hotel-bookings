@@ -1,7 +1,7 @@
 package reps
 
 import (
-	"log"
+	"log/slog"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -47,9 +47,18 @@ type Responder interface {
 
 // JSON 通用响应方法
 func JSON[T Responder](c *gin.Context, err *errs.ApiError, data *T) {
+	msg := c.Request.Method + " " + c.Request.RequestURI
 	if err.StatusCode() != http.StatusOK {
-		// TODO: log
-		log.Println(err)
+		slog.ErrorContext(
+			c,
+			msg,
+			slog.Int("status", err.StatusCode()),
+			slog.Int("code", err.StatusCode()),
+			slog.String("message", err.Message()),
+			slog.String("error", err.Error()),
+		)
+	} else {
+		slog.InfoContext(c, msg, slog.Int("code", err.StatusCode()))
 	}
 
 	c.JSON(err.StatusCode(), data)
