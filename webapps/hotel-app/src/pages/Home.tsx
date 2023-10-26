@@ -59,7 +59,7 @@ export const Home = () => {
                     <RoomSort />
                 </li>
                 <li className="ml-4">
-                    <Button variant="primary" size={"lg"} className="px-7">
+                    <Button variant="primary" size={"lg"} className="px-7 h-[50px]">
                         搜 索
                     </Button>
                 </li>
