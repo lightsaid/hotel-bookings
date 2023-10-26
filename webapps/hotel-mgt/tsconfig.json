@@ -1,11 +1,36 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "env.d.ts", 
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/__tests__/*"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "target": "es2022",
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "composite": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
     }
-  ]
+  }
 }
+
+
