@@ -4,7 +4,7 @@ import (
 	"log"
 
 	_ "github.com/golang-migrate/migrate/v4"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	"github.com/lightsaid/hotel-bookings/pkg/env"
 	"github.com/lightsaid/hotel-bookings/platform"
 
@@ -12,10 +12,10 @@ import (
 )
 
 func main() {
-	_, err := env.LoadingEnv("back.toml", &config.Cfg, "./configs")
+	_, err := env.LoadingEnv("back.toml", &configs.Cfg, "./configs")
 	if err != nil {
 		log.Fatal("加载 back.toml ", err)
 	}
 
-	platform.NewApp(platform.Backend).Start(&config.Cfg)
+	platform.NewApp(platform.Backend).Start(&configs.Cfg)
 }

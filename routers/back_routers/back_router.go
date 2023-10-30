@@ -4,18 +4,18 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	"github.com/lightsaid/hotel-bookings/pkg/fileupload"
 	"github.com/lightsaid/hotel-bookings/routers/middleware"
 )
 
 // BackendRouter 后台路由
 func BackendRouter() *gin.Engine {
-	gin.SetMode(config.Cfg.Server.AppMode)
+	gin.SetMode(configs.Cfg.Server.AppMode)
 	mux := gin.New()
 
 	// 初始化上传文件工具，初始化后可以直接使用 fileupload.Local 对象
-	fileupload.NewLocalUploader(config.Cfg.Uploader.SaveDir, config.Cfg.Uploader.MaxMB, config.Cfg.Uploader.AllowExts...)
+	fileupload.NewLocalUploader(configs.Cfg.Uploader.SaveDir, configs.Cfg.Uploader.MaxMB, configs.Cfg.Uploader.AllowExts...)
 
 	// TODO: 自己定义
 	// mux.Use(gin.Logger())
@@ -25,7 +25,7 @@ func BackendRouter() *gin.Engine {
 	mux.Static("/static", "./static")
 	mux.LoadHTMLGlob("views/*.html")
 
-	if config.Cfg.Server.AppMode == config.DebugMode {
+	if configs.Cfg.Server.AppMode == configs.DebugMode {
 		mux.GET("/upload_test", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "upload_test.html", nil)
 		})
@@ -38,7 +38,7 @@ func BackendRouter() *gin.Engine {
 	}
 
 	auth := r.Group("")
-	auth.Use(middleware.RequireAuth(config.TokenMaker)) // 需要登录认证
+	auth.Use(middleware.RequireAuth(configs.TokenMaker)) // 需要登录认证
 	{
 		auth.POST("/fileUpload", uploadApi.UploadFile)
 

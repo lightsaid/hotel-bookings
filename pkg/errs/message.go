@@ -12,4 +12,5 @@ var (
 	MsgCreateSessionFail      = "登录时，创建session错误"
 	MsgRefreshTokenNoMis      = "Token 不匹配"
 	MsgUserNotMis             = "用户不匹配"
+	MsgSMSMismatch            = "验证码不匹配"
 )

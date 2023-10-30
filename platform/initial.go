@@ -6,22 +6,26 @@ import (
 	"log"
 	"os"
 
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	"github.com/lightsaid/hotel-bookings/pkg/logger"
 	"github.com/lightsaid/hotel-bookings/pkg/token"
 )
 
 func initMySQL() {
 	var err error
-	config.DB, err = sql.Open("mysql", config.Cfg.MySQL.DBSource())
+	configs.DB, err = sql.Open("mysql", configs.Cfg.MySQL.DBSource())
 	if err != nil {
 		log.Fatal("initMySQL() ", err)
+	}
+	err = configs.DB.Ping()
+	if err != nil {
+		log.Fatal("Ping MySQL ", err)
 	}
 }
 
 func initTokenMaker() {
 	var err error
-	config.TokenMaker, err = token.NewJWTMaker(config.Cfg.Token.TokenScretkey, config.Cfg.Server.Host)
+	configs.TokenMaker, err = token.NewJWTMaker(configs.Cfg.Token.TokenScretkey, configs.Cfg.Server.Host)
 	if err != nil {
 		log.Fatal("initTokenMaker() ", err)
 	}
@@ -29,8 +33,8 @@ func initTokenMaker() {
 
 func initLogger() {
 	var output io.Writer = os.Stdout
-	if config.Cfg.Server.AppMode == config.ReleaseMode {
-		output = logger.DefaultOutput(config.Cfg.Logger.LogFile)
+	if configs.Cfg.Server.AppMode == configs.ReleaseMode {
+		output = logger.DefaultOutput(configs.Cfg.Logger.LogFile)
 	}
-	logger.NewLogger(config.Cfg.Logger.Level, output)
+	logger.NewLogger(configs.Cfg.Logger.Level, output)
 }

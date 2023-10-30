@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	"github.com/lightsaid/hotel-bookings/pkg/errs"
 )
 
@@ -57,7 +57,7 @@ func handleError(c *gin.Context, err error) bool {
 	}
 
 	// 对错误信息进行翻译, 得到的是 map[string]string 结构数据
-	merrs := verrs.Translate(config.Trans)
+	merrs := verrs.Translate(configs.Trans)
 
 	var msgs []string
 	for _, e := range merrs {

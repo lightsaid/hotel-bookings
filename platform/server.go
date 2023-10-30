@@ -7,12 +7,14 @@ import (
 	"time"
 
 	backApi "github.com/lightsaid/hotel-bookings/api/back"
+	frontApi "github.com/lightsaid/hotel-bookings/api/front"
 	"github.com/lightsaid/hotel-bookings/api/validate"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
 	"github.com/lightsaid/hotel-bookings/routers/back_routers"
 	"github.com/lightsaid/hotel-bookings/routers/front_routers"
 	"github.com/lightsaid/hotel-bookings/service/back"
+	"github.com/lightsaid/hotel-bookings/service/front"
 )
 
 // 做 前端、后台 API服务启动时的公共事情
@@ -39,11 +41,11 @@ func (app *App) serve() {
 
 	// 初始化数据库
 	initMySQL()
-	defer config.DB.Close()
+	defer configs.DB.Close()
 
 	initTokenMaker()
 
-	config.Trans = validate.NewValidation("zh")
+	configs.Trans = validate.NewValidation("zh")
 
 	var mux http.Handler
 	if app.appType == Backend {
@@ -55,7 +57,7 @@ func (app *App) serve() {
 		mux = front_routers.FrontendRouter()
 	}
 
-	addr := fmt.Sprintf("0.0.0.0:%d", config.Cfg.Server.Port)
+	addr := fmt.Sprintf("0.0.0.0:%d", configs.Cfg.Server.Port)
 	server := http.Server{
 		Addr:         addr,
 		Handler:      mux,
@@ -71,17 +73,17 @@ func (app *App) serve() {
 }
 
 func (app *App) setupBack() {
-	store := db.NewSQLStore(config.DB)
+	store := db.NewSQLStore(configs.DB)
 	// 初始化 back 服务
 	backApi.InitService(back.NewService(store))
 }
 
 func (app *App) setupFront() {
-	store := db.NewSQLStore(config.DB)
-	// 初始化 back 服务
-	backApi.InitService(back.NewService(store))
+	store := db.NewSQLStore(configs.DB)
+	// 初始化 front 服务
+	frontApi.InitService(front.NewService(store))
 }
 
-func (app *App) Start(config *config.Config) {
+func (app *App) Start(config *configs.Config) {
 	app.serve()
 }

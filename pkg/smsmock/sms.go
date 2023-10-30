@@ -11,6 +11,9 @@ import (
 
 // 模拟短信验证码，不会发送，仅仅以接口方式返回
 
+var one sync.Once
+var sms *SMS
+
 type SMS struct {
 	store    map[string]SMSCode // 存储短信验证码
 	duration time.Duration      // 有效期
@@ -18,34 +21,36 @@ type SMS struct {
 }
 
 func NewSMS(duration time.Duration) *SMS {
-	sms := &SMS{
-		store:    make(map[string]SMSCode),
-		duration: duration,
-		mu:       sync.RWMutex{},
-	}
+	one.Do(func() {
+		sms = &SMS{
+			store:    make(map[string]SMSCode),
+			duration: duration,
+			mu:       sync.RWMutex{},
+		}
 
-	// 定时检查清理
-	go func() {
-		tk := time.NewTimer(10 * time.Second)
-		defer tk.Stop()
-		for range tk.C {
-			for key := range sms.store {
-				val := sms.store[key]
-				if val.Status == StatusExpired {
-					delete(sms.store, key)
+		// 定时检查清理
+		go func() {
+			tk := time.NewTimer(10 * time.Second)
+			defer tk.Stop()
+			for range tk.C {
+				for key := range sms.store {
+					val := sms.store[key]
+					if val.Status == StatusExpired {
+						delete(sms.store, key)
+					}
 				}
 			}
-		}
-	}()
+		}()
+	})
 
 	return sms
 }
 
-func (sms *SMS) Length() int {
-	return len(sms.store)
-}
+// func (sms *SMS) Length() int {
+// 	return len(sms.store)
+// }
 
-// GenSMSCode 生成随机验证码, 如果是旧的验证码exists=true
+// GenSMSCode 生成随机验证码, 如果是旧的验证码(未过期)exists=true
 func (sms *SMS) GenSMSCode(phoneNumber string) (smscode SMSCode, exists bool) {
 	var err error
 	smscode, err = sms.getSMSCode(phoneNumber)
@@ -70,7 +75,7 @@ func (sms *SMS) GenSMSCode(phoneNumber string) (smscode SMSCode, exists bool) {
 	return
 }
 
-// GetSMSCode 获取验证码并修改状态为已使用
+// GetSMSCode 获取验证码并修改状态为已使用，err 为 nil 则说明验证码没被使用，且还在有效期
 func (sms *SMS) GetSMSCode(phoneNumber string) (smscode SMSCode, err error) {
 	smscode, err = sms.getSMSCode(phoneNumber)
 	if err != nil {
@@ -90,7 +95,7 @@ func (sms *SMS) GetSMSCode(phoneNumber string) (smscode SMSCode, err error) {
 	return
 }
 
-// GetSMSCode 获取一个 SMSCode
+// GetSMSCode 获取一个有效的SMSCode
 func (sms *SMS) getSMSCode(phoneNumber string) (smscode SMSCode, err error) {
 	sms.mu.Lock()
 	defer sms.mu.Unlock()

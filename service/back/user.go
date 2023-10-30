@@ -6,7 +6,7 @@ import (
 
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
 	"github.com/lightsaid/hotel-bookings/pkg/errs"
 	"github.com/lightsaid/hotel-bookings/pkg/pswd"
@@ -51,12 +51,12 @@ func (svc *Service) LoginUser(c context.Context, req request.LoginRequest) (*rep
 	}
 
 	// 验证成功，做登录的其他业务
-	aToken, _, err := config.TokenMaker.CreateToken(int64(user.ID), config.Cfg.Token.AccessTokenDuration)
+	aToken, _, err := configs.TokenMaker.CreateToken(int64(user.ID), configs.Cfg.Token.AccessTokenDuration)
 	if err != nil {
 		return nil, errs.ErrServerError.AsMessage(errs.MsgCreateTokenFailed).AsException(err)
 	}
 
-	rToken, payload, err := config.TokenMaker.CreateToken(int64(user.ID), config.Cfg.Token.RefreshTokenDuration)
+	rToken, payload, err := configs.TokenMaker.CreateToken(int64(user.ID), configs.Cfg.Token.RefreshTokenDuration)
 	if err != nil {
 		return nil, errs.ErrServerError.AsMessage(errs.MsgCreateTokenFailed).AsException(err)
 	}
@@ -109,7 +109,7 @@ func (svc *Service) RenewAccessToken(c context.Context, payload *token.Payload, 
 	}
 
 	// 创建access Token
-	token, _, err := config.TokenMaker.CreateToken(int64(session.UserID), config.Cfg.Token.AccessTokenDuration)
+	token, _, err := configs.TokenMaker.CreateToken(int64(session.UserID), configs.Cfg.Token.AccessTokenDuration)
 	if err != nil {
 		return "", errs.ErrServerError.AsException(err)
 	}

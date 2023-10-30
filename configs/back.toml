@@ -27,9 +27,9 @@ RefreshTokenDuration = "72h"
 
 [Uploader]
 SaveDir = "static/uploads"
-AllowExts = [".png", ".jpeg", ".jpg", ".mp4"]
+AllowExts = [".png", ".jpeg", ".jpg"]
 MaxMB = 4 # 单位是MB，最终解析为 4 << 20
 
 [Logger]
 Level = "INFO" # DEBUG,INFO,WARN,ERROR
-LogFile = "storage/logs/access.log"
+LogFile = "storage/logs/access_back.log"

@@ -1,7 +1,6 @@
 package smsmock_test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -43,9 +42,9 @@ func TestGenSMSCode(t *testing.T) {
 	require.ErrorIs(t, err, smsmock.ErrInExpired)
 	require.Equal(t, int(smsmock.StatusExpired), int(smscode4.Status))
 
-	fmt.Println("len1: ", sms.Length())
+	// fmt.Println("len1: ", sms.Length())
 	time.Sleep(20 * time.Second)
-	fmt.Println("len2: ", sms.Length())
+	// fmt.Println("len2: ", sms.Length())
 
 	_, err = sms.GetSMSCode(phoneNumber)
 	require.ErrorIs(t, smsmock.ErrInNotExists, err)

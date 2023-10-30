@@ -22,4 +22,5 @@ type ReqisterRequest struct {
 	UserName    string `json:"username" binding:"required,min=2,max=20"`
 	PhoneNumber string `json:"phone_number" binding:"required,vPhone"`
 	Password    string `json:"password" binding:"omitempty,min=6,max=16"`
+	SMSCode     string `json:"sms_code" binding:"required,min=4,max=10"`
 }

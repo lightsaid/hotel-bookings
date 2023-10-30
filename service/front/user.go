@@ -6,16 +6,49 @@ import (
 
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	db "github.com/lightsaid/hotel-bookings/db/sqlc"
 	"github.com/lightsaid/hotel-bookings/pkg/errs"
 	"github.com/lightsaid/hotel-bookings/pkg/pswd"
+	"github.com/lightsaid/hotel-bookings/pkg/smsmock"
 	"github.com/lightsaid/hotel-bookings/pkg/token"
 	"github.com/lightsaid/hotel-bookings/service"
 )
 
-func (svc *Service) RegisterUser(c context.Context, req request.ReqisterRequest) (*reps.RegisterResponse, *errs.ApiError) {
-	return nil, nil
+var (
+	default_avatar = "/static/images/default_avatar.png"
+)
+
+func (svc *Service) RegisterUser(c context.Context, req request.ReqisterRequest) (uint32, *errs.ApiError) {
+	// 获取验证码
+	sms := smsmock.NewSMS(3 * time.Minute)
+
+	smscode, err := sms.GetSMSCode(req.PhoneNumber)
+	if err != nil {
+		return 0, errs.ErrBadRequest.AsMessage(err.Error()).AsException(err)
+	}
+	if smscode.Code != req.SMSCode {
+		return 0, errs.ErrBadRequest.AsMessage(errs.MsgSMSMismatch).AsException(err)
+	}
+
+	hashedPswd, err := pswd.GenHashPassword(req.Password)
+	if err != nil {
+		return 0, errs.ErrServerError.AsException(err)
+	}
+
+	arg := db.CreateUserParams{
+		PhoneNumber:    req.PhoneNumber,
+		HashedPassword: hashedPswd,
+		Username:       req.UserName,
+		Avatar:         default_avatar,
+	}
+
+	newID, err := service.HandleInsert(c, arg, svc.store.CreateUser)
+	if err != nil {
+		return 0, errs.HandleSQLError(err)
+	}
+
+	return newID, nil
 }
 
 // LoginUser 用户登录，成功返回nil, 错误返回error（错误种类：数据库错误，Token错误, ErrMismatchedPaswd，ErrNotImplemented）
@@ -38,12 +71,12 @@ func (svc *Service) LoginUser(c context.Context, req request.LoginRequest) (*rep
 	}
 
 	// 验证成功，做登录的其他业务
-	aToken, _, err := config.TokenMaker.CreateToken(int64(user.ID), config.Cfg.Token.AccessTokenDuration)
+	aToken, _, err := configs.TokenMaker.CreateToken(int64(user.ID), configs.Cfg.Token.AccessTokenDuration)
 	if err != nil {
 		return nil, errs.ErrServerError.AsMessage(errs.MsgCreateTokenFailed).AsException(err)
 	}
 
-	rToken, payload, err := config.TokenMaker.CreateToken(int64(user.ID), config.Cfg.Token.RefreshTokenDuration)
+	rToken, payload, err := configs.TokenMaker.CreateToken(int64(user.ID), configs.Cfg.Token.RefreshTokenDuration)
 	if err != nil {
 		return nil, errs.ErrServerError.AsMessage(errs.MsgCreateTokenFailed).AsException(err)
 	}
@@ -96,7 +129,7 @@ func (svc *Service) RenewAccessToken(c context.Context, payload *token.Payload, 
 	}
 
 	// 创建access Token
-	token, _, err := config.TokenMaker.CreateToken(int64(session.UserID), config.Cfg.Token.AccessTokenDuration)
+	token, _, err := configs.TokenMaker.CreateToken(int64(session.UserID), configs.Cfg.Token.AccessTokenDuration)
 	if err != nil {
 		return "", errs.ErrServerError.AsException(err)
 	}

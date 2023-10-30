@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lightsaid/hotel-bookings/api/request"
 	reps "github.com/lightsaid/hotel-bookings/api/response"
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	"github.com/lightsaid/hotel-bookings/pkg/errs"
 	"github.com/lightsaid/hotel-bookings/pkg/token"
 )
@@ -36,7 +36,7 @@ func (*AuthApi) RenewAccessToken(c *gin.Context) {
 		return
 	}
 
-	payload, err := config.TokenMaker.VerifyToken(req.RefreshToken)
+	payload, err := configs.TokenMaker.VerifyToken(req.RefreshToken)
 	if err != nil {
 		if token.IsCustomError(err) {
 			reps.FAIL(c, errs.ErrUnauthorized.AsException(err).AsMessage(err.Error()))

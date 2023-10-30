@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/lightsaid/hotel-bookings/config"
+	"github.com/lightsaid/hotel-bookings/configs"
 	"github.com/lightsaid/hotel-bookings/pkg/env"
 )
 
@@ -14,7 +14,7 @@ var testDB *sql.DB
 var testQueries *Queries
 
 func TestMain(m *testing.M) {
-	var config config.Config
+	var config configs.Config
 	_, err := env.LoadingEnv("config.toml", &config, "../../configs")
 	if err != nil {
 		log.Fatal("加载配置错误: ", err)
