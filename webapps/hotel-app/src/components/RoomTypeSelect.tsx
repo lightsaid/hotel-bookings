@@ -1,18 +1,22 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { CgSortAz, CgSortZa } from "react-icons/cg";
+import { BiCategory } from "react-icons/bi";
 
-const roomSorts = [
-    { name: "价格：低到高", icon: CgSortZa },
-    { name: "价格：高到低", icon: CgSortAz },
+const people = [
+    { name: "Wade Cooper" },
+    { name: "Arlene Mccoy" },
+    { name: "Devon Webb" },
+    { name: "Tom Cook" },
+    { name: "Tanya Fox" },
+    { name: "Hellen Schmidt" },
 ];
 
-export function RoomSort() {
-    const [selected, setSelected] = useState(roomSorts[0]);
+const RoomTypeSelect = () => {
+    const [selected, setSelected] = useState(people[0]);
 
     return (
-        <div className="w-[130px] h-[50px] box-border">
+        <div className="w-[220px] h-[50px] box-border">
             <Listbox value={selected} onChange={setSelected}>
                 <div className="relative">
                     <Listbox.Button
@@ -23,11 +27,11 @@ export function RoomSort() {
 						focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                         <div>
-                            <div className="absolute left-1 translate-y-[40%]">
-                                <selected.icon className=" text-2xl" />
+                            <div className="absolute left-2 translate-y-[58%]">
+                                <BiCategory className="text-lg" />
                             </div>
                             <p className="text-[12px] font-bold text-slate-500">
-                                排序
+                                客房类型
                             </p>
                             <p className="block truncate text-sm text-slate-900">
                                 {selected.name}
@@ -42,14 +46,15 @@ export function RoomSort() {
                     >
                         <Listbox.Options
                             className="
-                            absolute mt-1 max-h-60 w-full overflow-auto rounded-md
-                            bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+								absolute mt-1 max-h-60 w-full overflow-auto rounded-md
+								bg-white py-1 text-base shadow-lg ring-1 ring-black 
+								ring-opacity-5 focus:outline-none sm:text-sm"
                         >
-                            {roomSorts.map((person, personIdx) => (
+                            {people.map((person, personIdx) => (
                                 <Listbox.Option
                                     key={personIdx}
                                     className={({ active }) =>
-                                        `relative cursor-default select-none py-2 pl-7 pr-3 ${
+                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                             active
                                                 ? "bg-sky-100 text-sky-900"
                                                 : "text-gray-900"
@@ -69,9 +74,9 @@ export function RoomSort() {
                                                 {person.name}
                                             </span>
                                             {selected ? (
-                                                <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-sky-600">
+                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-600">
                                                     <CheckIcon
-                                                        className="h-4 w-4 "
+                                                        className="h-5 w-5 "
                                                         aria-hidden="true"
                                                     />
                                                 </span>
@@ -87,3 +92,6 @@ export function RoomSort() {
         </div>
     );
 }
+
+
+export default RoomTypeSelect
