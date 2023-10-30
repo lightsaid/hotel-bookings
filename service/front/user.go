@@ -58,10 +58,16 @@ func (svc *Service) LoginUser(c context.Context, req request.LoginRequest) (*rep
 		return nil, errs.HandleSQLError(err)
 	}
 
-	// 验证码登录
 	if *req.LoginType == request.LoginType_SMS {
-		// TODO:
-		return nil, errs.ErrBadRequest.AsMessage(errs.MsgSMSLoginNotImplemented)
+		// 验证码登录
+		sms := smsmock.NewSMS(3 * time.Minute)
+		smscode, err := sms.GetSMSCode(req.PhoneNumber)
+		if err != nil {
+			return nil, errs.ErrBadRequest.AsMessage(err.Error()).AsException(err)
+		}
+		if smscode.Code != req.SMSCode {
+			return nil, errs.ErrBadRequest.AsMessage(errs.MsgSMSMismatch).AsException(err)
+		}
 	} else {
 		// 密码登录
 		err = pswd.CheckPassword(req.Password, user.HashedPassword)
