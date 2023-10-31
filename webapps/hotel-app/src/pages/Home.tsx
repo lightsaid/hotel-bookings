@@ -1,13 +1,29 @@
 import { HotelSelect } from "../components/HotelSelect";
 import { PriceSort } from "../components/PriceSort";
 import AvatarImage from "../assets/default_avatar.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/base/Button";
 import Datepicker from "@/components/Datepicker";
 // import { CustomFilter } from "../components/CustomFilter";
 import RoomTypeSelect from "@/components/RoomTypeSelect"
+import { ListHotels, Login, LoginRequest } from "@/api"
 
 export const Home = () => {
+    const query = {
+        page_num: 1,
+        page_size: 10
+    }
+    const loginRequest: LoginRequest = {
+        "phone_number": "13876543212",
+        "password": "abc123",
+        "sms_code": "1111",
+        "login_type": 0
+    }
+    useEffect(()=>{
+        // TODO: 测试接口
+        ListHotels(query).then(res=>{})
+        Login(loginRequest).then(res=>{})
+    }, [])
 
     return (
         <section className="max-w-[1024px] mx-auto">

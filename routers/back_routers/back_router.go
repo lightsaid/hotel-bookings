@@ -21,6 +21,7 @@ func BackendRouter() *gin.Engine {
 	// mux.Use(gin.Logger())
 	mux.Use(middleware.GenRequestID())
 	mux.Use(gin.Recovery())
+	mux.Use(middleware.NoCORS())
 
 	mux.Static("/static", "./static")
 	mux.LoadHTMLGlob("views/*.html")

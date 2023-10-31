@@ -17,6 +17,7 @@ func FrontendRouter() *gin.Engine {
 	// TODO: 自己定义
 	mux.Use(gin.Logger())
 	mux.Use(gin.Recovery())
+	mux.Use(middleware.NoCORS())
 
 	mux.Static("/static", "./static")
 
