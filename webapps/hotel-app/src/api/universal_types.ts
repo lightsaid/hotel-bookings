@@ -1,6 +1,6 @@
 // NOTE: 通用类型定义
 
-// 分页基础数据
+// 分页数据基础信息
 export type MetaType = {
     current_page: number;
     page_size: number;

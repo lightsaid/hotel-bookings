@@ -7,8 +7,10 @@ import Datepicker from "@/components/Datepicker";
 // import { CustomFilter } from "../components/CustomFilter";
 import RoomTypeSelect from "@/components/RoomTypeSelect"
 import { ListHotels, Login, LoginRequest } from "@/api"
+import { useCounterStore } from "@/stores/counterStore"
 
 export const Home = () => {
+    const { count, increment, decrement, getHotels, hotels } = useCounterStore()
     const query = {
         page_num: 1,
         page_size: 10
@@ -21,8 +23,18 @@ export const Home = () => {
     }
     useEffect(()=>{
         // TODO: 测试接口
-        ListHotels(query).then(res=>{})
-        Login(loginRequest).then(res=>{})
+        // ListHotels(query).then(res=>{})
+        // Login(loginRequest).then(res=>{})
+        (async ()=>{
+            let data = await ListHotels(query)
+            // console.log(data)
+        })()
+
+        getHotels().then(res=> {
+            console.log(res)
+        })
+        console.log("hotels: ", hotels )
+
     }, [])
 
     return (
@@ -53,6 +65,15 @@ export const Home = () => {
 
             {/* Rooms */}
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-8">
+
+                {/* TODO: 测试 */}
+                <div>
+                    <span className="text-lg font-bold text-cyan-500">{count}</span>
+                    <Button size="md" onClick={()=>increment(3)}>increment</Button>
+                    <Button size="md" onClick={()=>decrement(1)}>increment</Button>
+                </div>
+            
+
                 <div className="item">
                     <img
                         className="w-full h-48 object-cover rounded-t-lg"
