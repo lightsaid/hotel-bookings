@@ -3,8 +3,11 @@ import AvatarImage from "../assets/default_avatar.png";
 import { twJoin } from "tailwind-merge";
 import { AiOutlineBars, AiOutlineLogin, AiOutlineForm } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { useProfileStore } from "@/stores";
+import { getImageURL } from "@/utils/helper";
 
 export const AvatarMenu = memo(() => {
+    const { profile } = useProfileStore();
     const [showLink, setShowLink] = useState(false);
 
     const navigate = useNavigate();
@@ -23,11 +26,11 @@ export const AvatarMenu = memo(() => {
                 onClick={() => setShowLink((prev) => !prev)}
             >
                 <img
-                    src={AvatarImage}
+                    src={getImageURL(profile?.avatar)}
                     alt="avatar"
                     className="w-[36px] rounded-full bg-slate-300 shadow-sm border border-slate-200 mr-2"
                 />
-                <span>Lightsaid</span>
+                <span>{profile?.username}</span>
             </button>
             <ul
                 className={twJoin(

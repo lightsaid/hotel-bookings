@@ -4,8 +4,7 @@ import { CgCalendarDates } from "react-icons/cg";
 import * as dayjs from "dayjs";
 
 const Datepicker = () => {
-
-	const [value, setValue] = useState({
+    const [value, setValue] = useState({
         startDate: dayjs().format("YYYY-MM-DD"),
         endDate: dayjs().format("YYYY-MM-DD"),
     });
@@ -44,4 +43,4 @@ const Datepicker = () => {
     );
 };
 
-export default Datepicker
+export default Datepicker;

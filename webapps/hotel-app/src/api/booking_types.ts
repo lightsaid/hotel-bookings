@@ -1,1 +1,1 @@
-export type BookingType = {}
+export type BookingType = {};

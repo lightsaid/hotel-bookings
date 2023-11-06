@@ -3,6 +3,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { Bookings } from "../pages/Bookings";
 import { Home } from "../pages/Home";
 import { Room } from "../pages/Room";
+import Register from "@/pages/Register";
 
 export const router = createBrowserRouter([
     {
@@ -22,5 +23,9 @@ export const router = createBrowserRouter([
                 element: <Bookings />,
             },
         ],
+    },
+    {
+        path: "/register",
+        element: <Register />,
     },
 ]);

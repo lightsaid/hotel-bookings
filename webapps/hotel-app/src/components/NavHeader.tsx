@@ -5,8 +5,10 @@ import { AuthForm } from "./AuthForm";
 import { useModalContext, ModalContextProvider } from "../context/ModalContext";
 import { useEffect } from "react";
 import { AvatarMenu } from "./AvatarMenu";
+import { useProfileStore } from "@/stores";
 
 const Container = () => {
+    const { profile } = useProfileStore();
     const { setConfig, openModal } = useModalContext();
     useEffect(() => {
         setConfig({ panelClass: "max-w-[540px]" });
@@ -23,20 +25,24 @@ const Container = () => {
                             Hotel Bookings
                         </Link>
                     </div>
-                    <div className="text-right ml-auto">
-                        <Button
-                            variant={"primary"}
-                            size="md"
-                            className="flex justify-items-center items-center ml-auto"
-                            onClick={() => openModal()}
-                        >
-                            <BiUserCircle className="h-[1.35rem] w-6 inline-block" />
-                            <span className="ml-1">登录</span>
-                        </Button>
-                    </div>
-                    <div className="ml-6">
-                        <AvatarMenu />
-                    </div>
+                    {profile && (
+                        <div className="ml-6">
+                            <AvatarMenu />
+                        </div>
+                    )}
+                    {!profile && (
+                        <div className="text-right ml-auto">
+                            <Button
+                                variant={"primary"}
+                                size="md"
+                                className="flex justify-items-center items-center ml-auto"
+                                onClick={() => openModal()}
+                            >
+                                <BiUserCircle className="h-[1.35rem] w-6 inline-block" />
+                                <span className="ml-1">登录</span>
+                            </Button>
+                        </div>
+                    )}
                 </header>
             </section>
             <AuthForm />

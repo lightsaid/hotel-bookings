@@ -1,5 +1,4 @@
-
-export type LoginType = 0 | 1 // 0: 密码登录，1: 验证码等内陆
+export type LoginType = 0 | 1; // 0: 密码登录，1: 验证码等内陆
 
 // 注册入参
 export type RegisterRequest = {
@@ -7,7 +6,7 @@ export type RegisterRequest = {
     phone_number: string;
     password: string;
     sms_code: string;
-}
+};
 
 // 登录入参：密码登录，password 必填，验证码登录 sms_code 必填
 export type LoginRequest = {
@@ -15,8 +14,7 @@ export type LoginRequest = {
     password: string;
     sms_code: string;
     login_type: LoginType;
-}
-
+};
 
 // 登录出参(用户个人信息)
 export type ProfileType = {
@@ -28,4 +26,4 @@ export type ProfileType = {
     updated_at: string;
     access_token: string;
     refresh_token: string;
-}
+};

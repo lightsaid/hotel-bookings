@@ -2,5 +2,3 @@
 // 规范: 导出的函数首字母大写
 
 import { http } from "@/utils/request";
-
-

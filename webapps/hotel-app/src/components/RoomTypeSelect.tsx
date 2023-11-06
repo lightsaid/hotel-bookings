@@ -91,7 +91,6 @@ const RoomTypeSelect = () => {
             </Listbox>
         </div>
     );
-}
+};
 
-
-export default RoomTypeSelect
+export default RoomTypeSelect;

@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useModalContext } from "../../context/ModalContext";
+import { useModalContext } from "@/context/ModalContext";
 import { twMerge } from "tailwind-merge";
 
 type ModelProps = {
