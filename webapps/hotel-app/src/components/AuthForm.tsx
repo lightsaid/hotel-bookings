@@ -68,7 +68,7 @@ export const AuthForm = () => {
             >
                 <Tab.List className="flex space-x-8 justify-center">
                     {tabs.map((item) => (
-                        <Tab key={item.key}>
+                        <Tab key={item.key} as={Fragment}>
                             {({ selected }) => (
                                 <button
                                     className={twMerge(

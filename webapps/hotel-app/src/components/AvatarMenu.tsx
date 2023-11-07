@@ -1,5 +1,4 @@
 import { memo, useState } from "react";
-import AvatarImage from "../assets/default_avatar.png";
 import { twJoin } from "tailwind-merge";
 import { AiOutlineBars, AiOutlineLogin, AiOutlineForm } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +18,7 @@ export const AvatarMenu = memo(() => {
 
     return (
         <div className="relative">
-            <button
+            <div
                 className="
 				flex justify-center items-center px-3 py-1 rounded-md border
 				border-slate-100 shadow-sm hover:border hover:border-slate-300"
@@ -31,7 +30,7 @@ export const AvatarMenu = memo(() => {
                     className="w-[36px] rounded-full bg-slate-300 shadow-sm border border-slate-200 mr-2"
                 />
                 <span>{profile?.username}</span>
-            </button>
+            </div>
             <ul
                 className={twJoin(
                     showLink ? `block` : `hidden`,
