@@ -74,3 +74,9 @@ func (svc *Service) QueryRooms(c context.Context, req request.QueryRoomsRequest)
 
 	return datas, total, nil
 }
+
+// GetListRoomTypes 获取所有客房类型
+func (svc *Service) GetListRoomTypes(c context.Context) ([]*db.RoomType, *errs.ApiError) {
+	list, err := svc.store.ListRoomTypes(c)
+	return list, errs.HandleSQLError(err)
+}

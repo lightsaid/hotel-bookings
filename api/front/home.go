@@ -35,3 +35,13 @@ func (*HomeApi) QueryRooms(c *gin.Context) {
 
 	reps.PAGE(c, list, total, req.PageNum, req.PageSize)
 }
+
+func (*HomeApi) ListRoomTypes(c *gin.Context) {
+	list, err := svc.GetListRoomTypes(c)
+	if err != nil {
+		reps.FAIL(c, err)
+		return
+	}
+
+	reps.OK(c, list)
+}

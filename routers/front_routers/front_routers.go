@@ -29,6 +29,7 @@ func FrontendRouter() *gin.Engine {
 		v1.POST("/login", authApi.Login)           // 登录
 		v1.GET("/hotels", homeApi.GetHotels)       // 获取酒店
 		v1.POST("/queryRooms", homeApi.QueryRooms) // 查询客房
+		v1.GET("/room_types", homeApi.ListRoomTypes)
 	}
 
 	auth := v1.Group("")

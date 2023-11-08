@@ -1,4 +1,4 @@
-export type HotelType = {
+export type HotelModel = {
     id: number;
     title: string;
     code: string;
@@ -6,4 +6,10 @@ export type HotelType = {
     created_at: string;
     updated_at: string;
     is_deleted?: boolean;
+};
+
+export type RoomType = {
+    "id": number;
+    "room_type": string;
+    "room_label": string;
 };

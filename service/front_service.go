@@ -13,6 +13,7 @@ import (
 type FrontService interface {
 	GetListHotels(c context.Context, req request.ListRequest) ([]*db.Hotel, int64, *errs.ApiError)
 	QueryRooms(c context.Context, req request.QueryRoomsRequest) ([]*reps.QueryRoomsResponse, int64, *errs.ApiError)
+	GetListRoomTypes(c context.Context) ([]*db.RoomType, *errs.ApiError)
 
 	RegisterUser(c context.Context, req request.ReqisterRequest) (uint32, *errs.ApiError)
 	LoginUser(c context.Context, req request.LoginRequest) (*reps.LoginResponse, *errs.ApiError)

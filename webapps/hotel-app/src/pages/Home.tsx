@@ -8,8 +8,10 @@ import Datepicker from "@/components/Datepicker";
 import RoomTypeSelect from "@/components/RoomTypeSelect";
 import { ListHotels, Login, LoginRequest } from "@/api";
 import { useCounterStore } from "@/stores/counter";
+import { useBaseDataStore } from "@/stores";
 
 export const Home = () => {
+    const { getRoomTypes } = useBaseDataStore()
     const { count, increment, decrement, getHotels, hotels } =
         useCounterStore();
     const query = {
@@ -34,6 +36,9 @@ export const Home = () => {
         getHotels().then((res) => {
             console.log(res);
         });
+
+        getRoomTypes()
+
         console.log("hotels: ", hotels);
     }, []);
 

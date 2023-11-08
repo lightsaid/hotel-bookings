@@ -1,15 +1,15 @@
 import { create } from "zustand";
-import { HotelType, ListHotels } from "@/api";
+import { HotelModel, ListHotels } from "@/api";
 
 type State = {
     count: number;
-    hotels: HotelType[];
+    hotels: HotelModel[];
 };
 
 type Actions = {
     increment: (qty: number) => void;
     decrement: (qty: number) => void;
-    getHotels: () => Promise<HotelType[]>;
+    getHotels: () => Promise<HotelModel[]>;
 };
 
 export const useCounterStore = create<State & Actions>()((set) => ({
