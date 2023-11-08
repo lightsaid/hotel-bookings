@@ -20,7 +20,7 @@ export const useBaseDataStore = create<State & Actions>()(
             getRoomTypes: async () => {
                 const res = await ListRoomTypes()
                 set({...state, roomTypes: res.result})
-                // 简单做一下缓存, 5分钟
+                // 做一下缓存, 5分钟
                 baseTimer = setTimeout(()=> {
                     set({...state, roomTypes: []})
                     clearTimeout(baseTimer)
