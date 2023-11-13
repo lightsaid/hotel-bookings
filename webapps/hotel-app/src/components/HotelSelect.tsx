@@ -1,18 +1,22 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { RiHotelLine } from "react-icons/ri";
-const people = [
-    { name: "Wade Cooper" },
-    { name: "Arlene Mccoy" },
-    { name: "Devon Webb" },
-    { name: "Tom Cook" },
-    { name: "Tanya Fox" },
-    { name: "Hellen Schmidt" },
-];
+import { useBaseDataStore, useHomeStore } from "@/stores"
+import { HotelModel } from "@/api";
 
 export function HotelSelect() {
-    const [selected, setSelected] = useState(people[0]);
+    const { hotels } = useBaseDataStore()
+    const { changeHotel }  = useHomeStore()
+    const [selected, setSelected] = useState<HotelModel>(hotels[0]);
+
+    useEffect(()=>{
+        setSelected(hotels[0])
+    },[hotels])
+
+    useEffect(()=>{
+        changeHotel(selected)
+    },[selected])
 
     return (
         <div className="w-[220px] h-[50px] box-border">
@@ -20,7 +24,7 @@ export function HotelSelect() {
                 <div className="relative">
                     <Listbox.Button
                         className="
-						relative w-full border cursor-pointer border-slate-500 
+						relative w-full border cursor-pointer border-slate-500 min-h-[50px]
 						rounded-lg bg-white py-1 pl-8 pr-2 text-left shadow-md focus:outline-none 
 						focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white 
 						focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
@@ -33,7 +37,7 @@ export function HotelSelect() {
                                 酒店
                             </p>
                             <p className="block truncate text-sm text-slate-900">
-                                {selected.name}
+                                {selected?.title}
                             </p>
                         </div>
                     </Listbox.Button>
@@ -49,9 +53,9 @@ export function HotelSelect() {
 								bg-white py-1 text-base shadow-lg ring-1 ring-black 
 								ring-opacity-5 focus:outline-none sm:text-sm"
                         >
-                            {people.map((person, personIdx) => (
+                            {hotels.map((h, index) => (
                                 <Listbox.Option
-                                    key={personIdx}
+                                    key={index}
                                     className={({ active }) =>
                                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                             active
@@ -59,7 +63,7 @@ export function HotelSelect() {
                                                 : "text-gray-900"
                                         }`
                                     }
-                                    value={person}
+                                    value={h}
                                 >
                                     {({ selected }) => (
                                         <>
@@ -70,7 +74,7 @@ export function HotelSelect() {
                                                         : "font-normal"
                                                 }`}
                                             >
-                                                {person.name}
+                                                {h.title}
                                             </span>
                                             {selected ? (
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-600">

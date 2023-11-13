@@ -1,15 +1,17 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { CgSortAz, CgSortZa } from "react-icons/cg";
+// import { CgSortAz, CgSortZa } from "react-icons/cg";
+import { useHomeStore, priceSortList } from "@/stores";
 
-const roomSorts = [
-    { name: "价格：低到高", icon: CgSortZa },
-    { name: "价格：高到低", icon: CgSortAz },
-];
 
 export function PriceSort() {
-    const [selected, setSelected] = useState(roomSorts[0]);
+    const { priceSort, changePriceSort } = useHomeStore()
+    const [selected, setSelected] = useState(priceSort);
+
+    useEffect(()=>{
+        changePriceSort(selected)
+    }, [selected])
 
     return (
         <div className="w-[160px] h-[50px] box-border">
@@ -45,9 +47,9 @@ export function PriceSort() {
                             absolute mt-1 max-h-60 w-full overflow-auto rounded-md
                             bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                         >
-                            {roomSorts.map((person, personIdx) => (
+                            {priceSortList.map((item, index) => (
                                 <Listbox.Option
-                                    key={personIdx}
+                                    key={index}
                                     className={({ active }) =>
                                         `relative cursor-default select-none py-2 pl-7 pr-3 ${
                                             active
@@ -55,7 +57,7 @@ export function PriceSort() {
                                                 : "text-gray-900"
                                         }`
                                     }
-                                    value={person}
+                                    value={item}
                                 >
                                     {({ selected }) => (
                                         <>
@@ -66,7 +68,7 @@ export function PriceSort() {
                                                         : "font-normal"
                                                 }`}
                                             >
-                                                {person.name}
+                                                {item.name}
                                             </span>
                                             {selected ? (
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-sky-600">

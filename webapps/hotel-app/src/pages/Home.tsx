@@ -8,11 +8,13 @@ import Datepicker from "@/components/Datepicker";
 import RoomTypeSelect from "@/components/RoomTypeSelect";
 import { ListHotels, Login, LoginRequest } from "@/api";
 import { useCounterStore } from "@/stores/counter";
-import { useBaseDataStore } from "@/stores";
+import { useBaseDataStore, useHomeStore } from "@/stores";
+
 
 export const Home = () => {
-    const { getRoomTypes } = useBaseDataStore()
-    const { count, increment, decrement, getHotels, hotels } =
+    // const { changeHotel, hotel } = useHomeStore()
+    const { getRoomTypes, getHotels } = useBaseDataStore()
+    const { count, increment, decrement } =
         useCounterStore();
     const query = {
         page_num: 1,
@@ -29,17 +31,20 @@ export const Home = () => {
         // ListHotels(query).then(res=>{})
         // Login(loginRequest).then(res=>{})
         (async () => {
-            let data = await ListHotels(query);
+            // let data = await ListHotels(query);
             // console.log(data)
         })();
 
-        getHotels().then((res) => {
-            console.log(res);
-        });
+        // getHotels().then((res) => {
+        //     console.log(res);
+        // });
+
+        // getRoomTypes()
+
+        // console.log("hotels: ", hotels);
 
         getRoomTypes()
-
-        console.log("hotels: ", hotels);
+        getHotels()
     }, []);
 
     return (
@@ -75,7 +80,7 @@ export const Home = () => {
             {/* Rooms */}
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-8">
                 {/* TODO: 测试 */}
-                <div>
+                {/* <div>
                     <span className="text-lg font-bold text-cyan-500">
                         {count}
                     </span>
@@ -85,7 +90,7 @@ export const Home = () => {
                     <Button size="md" onClick={() => decrement(1)}>
                         increment
                     </Button>
-                </div>
+                </div> */}
 
                 <div className="item">
                     <img

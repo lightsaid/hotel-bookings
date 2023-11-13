@@ -1,19 +1,19 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { BiCategory } from "react-icons/bi";
+import { useBaseDataStore, useHomeStore } from "@/stores"
 
-const people = [
-    { name: "Wade Cooper" },
-    { name: "Arlene Mccoy" },
-    { name: "Devon Webb" },
-    { name: "Tom Cook" },
-    { name: "Tanya Fox" },
-    { name: "Hellen Schmidt" },
-];
 
 const RoomTypeSelect = () => {
-    const [selected, setSelected] = useState(people[0]);
+    const { roomTypes } = useBaseDataStore();
+    const { changeRoomType } = useHomeStore()
+
+    const [selected, setSelected] = useState(roomTypes[0]);
+
+    useEffect(()=>{
+        changeRoomType(selected)
+    },[selected])
 
     return (
         <div className="w-[220px] h-[50px] box-border">
@@ -34,7 +34,7 @@ const RoomTypeSelect = () => {
                                 客房类型
                             </p>
                             <p className="block truncate text-sm text-slate-900">
-                                {selected.name}
+                                {selected.room_label}
                             </p>
                         </div>
                     </Listbox.Button>
@@ -50,9 +50,9 @@ const RoomTypeSelect = () => {
 								bg-white py-1 text-base shadow-lg ring-1 ring-black 
 								ring-opacity-5 focus:outline-none sm:text-sm"
                         >
-                            {people.map((person, personIdx) => (
+                            {roomTypes.map((room, index) => (
                                 <Listbox.Option
-                                    key={personIdx}
+                                    key={index}
                                     className={({ active }) =>
                                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                             active
@@ -60,7 +60,7 @@ const RoomTypeSelect = () => {
                                                 : "text-gray-900"
                                         }`
                                     }
-                                    value={person}
+                                    value={room}
                                 >
                                     {({ selected }) => (
                                         <>
@@ -71,7 +71,7 @@ const RoomTypeSelect = () => {
                                                         : "font-normal"
                                                 }`}
                                             >
-                                                {person.name}
+                                                {room.room_label}
                                             </span>
                                             {selected ? (
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-600">
